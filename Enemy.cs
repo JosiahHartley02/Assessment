@@ -6,6 +6,7 @@ namespace HelloWorld
 {
     class Enemy:Entity
     {
+        private bool _isUndead;
         Items[] inventory = new Items[3]; 
         //base constructor for average enemy
         public Enemy(string nameVal, int levelVal)

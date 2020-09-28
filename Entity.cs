@@ -44,6 +44,7 @@ namespace HelloWorld
         }
         //Set allows me to change values from 
        
+        //The following allow me to Get information from the protected variables declared above
         public string GetName()
         {
             return _name;

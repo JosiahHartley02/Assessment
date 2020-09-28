@@ -11,6 +11,7 @@ namespace HelloWorld
         private float _damageBoost;
         private int _value;
         
+        //Common item used for selling only
         public Items()
         {
             _name = "Junk";
@@ -18,6 +19,7 @@ namespace HelloWorld
             _damageBoost = 0;
             _value = 1;
         }
+        //Good Items used for actual use
         public Items(string nameVal, float healthBoostVal, float damageBoostVal, int valueVal)
         {
             _name = nameVal;
@@ -25,6 +27,7 @@ namespace HelloWorld
             _damageBoost = damageBoostVal;
             _value = valueVal;
         }
+        //PlaceHolder for inventories
         public Items(bool EmptySlot)
         {
             _name = "EmptySlot";
