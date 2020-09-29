@@ -24,7 +24,7 @@ namespace HelloWorld
             {
                 case 1:
                     //Mouseman is a thief that what he lacks in combat makes up for in increased loot potential
-                    _name = "MouseMan";
+                    _name = "Mouse Man";
                     _baseDamage = 5;
                     _health = 100;
                     _experience = 0;

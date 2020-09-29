@@ -103,6 +103,9 @@ namespace HelloWorld
         {
             float damage = agressor._baseDamage;
             target.TakeDamage(damage);
+            Console.WriteLine(agressor._name + " hit " + target._name + " for " + damage + " damage!");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
         }
         public void BlindAttack(Entity agressor, Entity target)
         {
@@ -112,6 +115,9 @@ namespace HelloWorld
                 //50% chance of hitting for 50% more damage
                 float damage = agressor._baseDamage * .5f + _baseDamage;
                 target.TakeDamage(damage);
+                Console.WriteLine(agressor._name + " hit " + target._name + " for " + damage + " damage!");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
             }
         }
         public void TakeDamage(float damage)

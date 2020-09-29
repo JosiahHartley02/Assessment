@@ -9,11 +9,12 @@ namespace HelloWorld
     {
         private Items junk = new Items();
         private Items EmptySlot = new Items(true);
-        private Player _player = new Player();
-        private Enemy _enemy = new Enemy("ZombieMan", 1);
+        private Player _player;
+        private Enemy _enemy = new Enemy("Zombie", 1);
         private bool _gameOver = false;
         private bool _useOldSave;
         //Run the game
+
         public void Run()
         {
             Start();
@@ -56,7 +57,7 @@ namespace HelloWorld
             Console.Clear();
             Console.WriteLine("Please select a character from below!");
             Console.WriteLine("1. Mouse Man, thief of the night\n2. Merlin" +
-                "master of the arcane arts\n3. WolfGang deaf musical bard\n.4 " +
+                " master of the arcane arts\n3. WolfGang deaf musical bard\n.4 " +
                 "Professer Eisenburg raiser of the dead");
             char input = ' ';
             while (input != '1' && input != '2' && input != '3' && input != '4')
@@ -74,6 +75,7 @@ namespace HelloWorld
                         _player = new Player(3);
                         break;
                     case '4':
+                        _player = new Player(4);
                         break;
                     default:
                         Console.WriteLine("Error please select a valid input");
@@ -111,7 +113,7 @@ namespace HelloWorld
                 Console.Clear();
                 Console.WriteLine(_player.GetName() + ": You approace the great stone wall, its significantly larger than you,\n" +
                     "and appears to still be guarded, you get the feeling you're not invited back in.");
-                Console.WriteLine("Press 2 to return to the pit");
+                Console.WriteLine("Press 2 to go to the far end of the pit");
                 input = Console.ReadKey().KeyChar;
                 if (input != '2')
                 {
@@ -119,7 +121,6 @@ namespace HelloWorld
                     Console.WriteLine("but press any key to try again");
                     Console.ReadKey();
                 }
-                break;
             }
         }
         private void TestForSaves()
@@ -190,11 +191,14 @@ namespace HelloWorld
         }
         private void BattleLoop(Entity player, Entity enemy)
         {
+            //test for both players being alive
             while(player.GetHealth() > 0 && enemy.GetHealth() > 0)
             {
                 Console.Clear();
                 player.PrintStats();
+                Console.WriteLine();
                 enemy.PrintStats();
+                //makes sure player is alive before attacking
                 if (player.GetHealth() > 0)
                 {
                     char input = GetInput("Attack soft yet sure", "Attack hard yet blind", "What move will you choose?");
@@ -207,8 +211,10 @@ namespace HelloWorld
                         player.BlindAttack(player, enemy);
                     }
                 }
+                //makes sure enemy is alive before attacking
                 if (enemy.GetHealth() > 0 )
                 {
+                    //adds "ai" in the sense that attacks are randomized
                     float EnemyChoice = GenerateNumber(1, 10);
                     if (EnemyChoice >= 6)
                     {
@@ -216,6 +222,7 @@ namespace HelloWorld
                     }
                     else if (EnemyChoice == 5)
                     {
+                        //i thought it would be cool to have a chance for nothing to happen
                         Console.WriteLine(enemy.GetName() + " doesn't seem interested");
                         Console.ReadKey();
                     }
@@ -227,13 +234,18 @@ namespace HelloWorld
             }
             if(player.GetHealth() > 0)
             {
-                Console.WriteLine("You gained " + player.GainExperience(enemy));
+                //after battle if player was the last alive they gain experience
+                Console.WriteLine("You gained " + player.GainExperience(enemy) + " experience!");
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
                 player.PrintStats();
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
+            }
+            else if(enemy.GetHealth() > 0)
+            {
+                Death();
             }
         }
         //takes in min and max to make generating numbers easy and variables non permanent
@@ -244,6 +256,14 @@ namespace HelloWorld
             float number = r.Next(min, max);
             return number;
         }
-
+        public void Death()
+        {
+            Console.WriteLine("You have succumbed to that of a fungi, neither alive nor dead \n" +
+                    "forever growing and forever rotting, but what is death to someone whos never lived?");
+            Console.WriteLine("Final Stats");
+            _player.PrintStats();
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+        }
     }
 }
