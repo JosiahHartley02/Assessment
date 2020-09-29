@@ -239,6 +239,10 @@ namespace HelloWorld
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
+                if (_player.GetExperience() >= 100)
+                {
+                    _player.LevelUP();
+                }
                 player.PrintStats();
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();

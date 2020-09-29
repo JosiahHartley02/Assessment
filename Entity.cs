@@ -39,7 +39,7 @@ namespace HelloWorld
             _isDead = false;
             _hasMana = false;
         }
-        
+
         //takes in min and max to make generating numbers easy and variables non permanent
         //i really like this function
         public float GenerateNumber(int min, int max)
@@ -49,21 +49,21 @@ namespace HelloWorld
             return number;
         }
         //Set allows me to change values from 
-       
+
         //The following allow me to Get information from the protected variables declared above
         public string GetName()
         {
             return _name;
         }
-       
+
         public int GetLevel()
         {
             return _level;
         }
-        
+
         public float GainExperience(Entity enemy)
         {
-            float experiencegained = 10 * enemy._level;
+            float experiencegained = 25 * enemy._level;
             _experience += experiencegained;
             return experiencegained;
         }
@@ -72,7 +72,11 @@ namespace HelloWorld
         {
             return _baseDamage;
         }
-       
+        public float GetExperience()
+        {
+            return _experience;
+        }
+               
         public float GetHealth()
         {
             return _health;
@@ -94,7 +98,7 @@ namespace HelloWorld
             {
                 Console.WriteLine(_mana + " mana remaining");
             }
-            Console.WriteLine("Total output damage " + _outputDamage);
+            Console.WriteLine("Total output damage " + _baseDamage);
             Console.WriteLine("Level " +_level);
             Console.WriteLine(_experience +"/100 experience");
         }
@@ -119,6 +123,11 @@ namespace HelloWorld
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
             }
+            else
+            {
+                Console.WriteLine(agressor._name + " missed!\nPress any key to continue");
+                Console.ReadKey();
+            }
         }
         public void TakeDamage(float damage)
         {
@@ -126,6 +135,14 @@ namespace HelloWorld
             if (_health < 0)
             {
                 _health = 0;
+            }
+        }
+        public void LevelUP()
+        {
+            for (float i = _experience; i >= 100; i -= 100)
+            {
+                _level += 1;
+                _experience -= 100;
             }
         }
     }
