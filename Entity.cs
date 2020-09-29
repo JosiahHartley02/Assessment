@@ -12,9 +12,12 @@ namespace HelloWorld
         protected string _name;
         protected float _health;
         protected float _baseDamage;
+        protected float _outputDamage;
         protected int _level;
         protected float _experience;
         protected bool _isDead;
+        protected int _mana;
+        protected bool _hasMana;
         //template constructor
         public Entity()
         {
@@ -24,6 +27,7 @@ namespace HelloWorld
             _level = 0;
             _experience = 0;
             _isDead = false;
+            _hasMana = false;
         }
         //base constructor entended for important enemy
         Entity(string nameVal, float healthVal, float damageVal, int levelVal)
@@ -33,6 +37,7 @@ namespace HelloWorld
             _baseDamage = damageVal;
             _level = levelVal;
             _isDead = false;
+            _hasMana = false;
         }
         
         //takes in min and max to make generating numbers easy and variables non permanent
@@ -63,6 +68,27 @@ namespace HelloWorld
         public float GetHealth()
         {
             return _health;
+        }
+        public int GetMana()
+        {
+            return _mana;
+        }
+        public float GetOutputDamage()
+        {
+            return _outputDamage;
+        }
+        public void PrintStats()
+        {
+            Console.WriteLine(_name + "'s stats:" );
+            Console.WriteLine(_health + " health remaining");
+            if (_hasMana == true)
+            {
+                Console.WriteLine(_mana + " mana remaining");
+            }
+            Console.WriteLine("Total output damage " + _outputDamage);
+            Console.WriteLine("Level " +_level);
+            Console.WriteLine(_experience +"/100 experience");
+            
         }
     }
 }

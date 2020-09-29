@@ -6,7 +6,6 @@ namespace HelloWorld
 {
     class Player:Entity
     {
-        private int _mana;
         //base constructor
         public Player()
         {
@@ -31,6 +30,7 @@ namespace HelloWorld
                     _experience = 0;
                     _isDead = false;
                     _level = 0;
+                    _hasMana = false;
                     break;
                 case 2:
                     //Merlin is a wizard that what he lacks in loot potential makes up for with damage
@@ -41,6 +41,7 @@ namespace HelloWorld
                     _isDead = false;
                     _level = 0;
                     _mana = 50;
+                    _hasMana = true;
                     break;
                 case 3:
                     //WolfGang is a deaf musician who uses horrible music to deal damage, nothing stands out
@@ -50,6 +51,7 @@ namespace HelloWorld
                     _experience = 0;
                     _isDead = false;
                     _level = 0;
+                    _hasMana = false;
                     break;
                 case 4:
                     //Eisenburg is a necromancer that can steal life from the undead
@@ -59,6 +61,7 @@ namespace HelloWorld
                     _experience = 0;
                     _isDead = false;
                     _level = 0;
+                    _hasMana = false;
                     break;
             }
         }
