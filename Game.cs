@@ -9,7 +9,8 @@ namespace HelloWorld
     {
         private Items junk = new Items();
         private Items EmptySlot = new Items(true);
-        private Player player = new Player();
+        private Player _player = new Player();
+        private Enemy _enemy = new Enemy("ZombieMan", 1);
         private bool _gameOver = false;
         private bool _useOldSave;
         //Run the game
@@ -64,13 +65,13 @@ namespace HelloWorld
                 switch (input)
                 {
                     case '1':
-                        player = new Player(1);
+                        _player = new Player(1);
                         break;
                     case '2':
-                        player = new Player(2);
+                        _player = new Player(2);
                         break;
                     case '3':
-                        player = new Player(3);
+                        _player = new Player(3);
                         break;
                     case '4':
                         break;
@@ -100,7 +101,7 @@ namespace HelloWorld
         {
             //small bit of plot introduced
             Console.Clear();
-            Console.WriteLine(player.GetName() + ": You wake up in a pit of the infected bodies of Castle Snositi");
+            Console.WriteLine(_player.GetName() + ": You wake up in a pit of the infected bodies of Castle Snositi");
             Console.WriteLine("Around you is nothing but inanimate bodies smelling of rotten flesh, the pit is nothing more than\n" +
                 "a divet in the Earth around you.");
             //castle wall no let them in because of plague
@@ -108,7 +109,7 @@ namespace HelloWorld
             while (input != '2')
             {
                 Console.Clear();
-                Console.WriteLine(player.GetName() + ": You approace the great stone wall, its significantly larger than you,\n" +
+                Console.WriteLine(_player.GetName() + ": You approace the great stone wall, its significantly larger than you,\n" +
                     "and appears to still be guarded, you get the feeling you're not invited back in.");
                 Console.WriteLine("Press 2 to return to the pit");
                 input = Console.ReadKey().KeyChar;
@@ -181,11 +182,68 @@ namespace HelloWorld
         private void FarEndOfThePit()
         {
             Console.Clear();
-            Console.WriteLine(player.GetName() + ": upon arriving at the far end of the gate, you notice an undead peasant\n" +
+            Console.WriteLine(_player.GetName() + ": upon arriving at the far end of the gate, you notice an undead peasant\n" +
                 "just standing there. But unfortunately it notices you and begins to approach quickly\n" +
-                "Press any key to begin battle introduction");
+                "Press any key  begin battle introduction");
             Console.ReadKey();
-
+            BattleLoop(_player,_enemy);
         }
+        private void BattleLoop(Entity player, Entity enemy)
+        {
+            while(player.GetHealth() > 0 && enemy.GetHealth() > 0)
+            {
+                Console.Clear();
+                player.PrintStats();
+                enemy.PrintStats();
+                if (player.GetHealth() > 0)
+                {
+                    char input = GetInput("Attack soft yet sure", "Attack hard yet blind", "What move will you choose?");
+                    if (input == '1')
+                    {
+                        player.Attack(player, enemy);
+                    }
+                    else if (input == '2')
+                    {
+                        player.BlindAttack(player, enemy);
+                    }
+                }
+                if (enemy.GetHealth() > 0 )
+                {
+                    float EnemyChoice = GenerateNumber(1, 10);
+                    if (EnemyChoice >= 6)
+                    {
+                        enemy.Attack(enemy, player);
+                    }
+                    else if (EnemyChoice == 5)
+                    {
+                        Console.WriteLine(enemy.GetName() + " doesn't seem interested");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        enemy.BlindAttack(enemy, player);
+                    }
+                }
+            }
+            if(player.GetHealth() > 0)
+            {
+                Console.WriteLine("You gained " + player.GainExperience(enemy));
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+                Console.Clear();
+                player.PrintStats();
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+            }
+        }
+        //takes in min and max to make generating numbers easy and variables non permanent
+        //i really like this function
+        public float GenerateNumber(int min, int max)
+        {
+            Random r = new Random();
+            float number = r.Next(min, max);
+            return number;
+        }
+
     }
 }

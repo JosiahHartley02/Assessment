@@ -41,6 +41,7 @@ namespace HelloWorld
         }
         
         //takes in min and max to make generating numbers easy and variables non permanent
+        //i really like this function
         public float GenerateNumber(int min, int max)
         {
             Random r = new Random();
@@ -60,6 +61,13 @@ namespace HelloWorld
             return _level;
         }
         
+        public float GainExperience(Entity enemy)
+        {
+            float experiencegained = 10 * enemy._level;
+            _experience += experiencegained;
+            return experiencegained;
+        }
+
         public float GetBaseDamage()
         {
             return _baseDamage;
@@ -77,6 +85,7 @@ namespace HelloWorld
         {
             return _outputDamage;
         }
+        //prints an entities stats
         public void PrintStats()
         {
             Console.WriteLine(_name + "'s stats:" );
@@ -88,7 +97,30 @@ namespace HelloWorld
             Console.WriteLine("Total output damage " + _outputDamage);
             Console.WriteLine("Level " +_level);
             Console.WriteLine(_experience +"/100 experience");
-            
+        }
+        //allows entity to attack an enemy by calling targets take damage function
+        public void Attack(Entity agressor, Entity target)
+        {
+            float damage = agressor._baseDamage;
+            target.TakeDamage(damage);
+        }
+        public void BlindAttack(Entity agressor, Entity target)
+        {
+            float HitChance = GenerateNumber(1, 10);
+            if (HitChance >= 5)
+            {
+                //50% chance of hitting for 50% more damage
+                float damage = agressor._baseDamage * .5f + _baseDamage;
+                target.TakeDamage(damage);
+            }
+        }
+        public void TakeDamage(float damage)
+        {
+            _health -= damage;
+            if (_health < 0)
+            {
+                _health = 0;
+            }
         }
     }
 }
