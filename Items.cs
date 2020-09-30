@@ -40,5 +40,9 @@ namespace HelloWorld
         {
             return _name;
         }
+        public int GetValue()
+        {
+            return _value;
+        }
     }
 }

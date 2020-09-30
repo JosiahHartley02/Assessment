@@ -326,7 +326,23 @@ namespace HelloWorld
                 }
             }
         }
-        private char GetInput(string option1, string option2, string option3, string option4, string query)
+        private void CampShop()
+        {
+            Console.Clear();
+        }
+        private void RestArea()
+        {
+
+        }
+        private void CampFire()
+        {
+
+        }
+        private void FightWildLife()
+        {
+
+        }
+        private char GetInput(string option1, string option2, string option3, string option4, string query) //gets either 1 2 3 or 4 as a char input and prints a query
         {
             char input = ' ';
             Console.WriteLine(query);

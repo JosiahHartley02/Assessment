@@ -6,7 +6,7 @@ namespace HelloWorld
 {
     class Player : Entity
     {
-
+        private int _gold;
         public Items _EmptySlot = new Items(true);
         private Items[] inventory = new Items[3];
         //base constructor
@@ -62,20 +62,28 @@ namespace HelloWorld
                     _hasMana = false;
                     break;
             }
+            _gold = 0;
             InitInventory(); // sets every slot in inventory array to Item Empty slot as a place holder.
         }
-        private void InitInventory()
+        private void InitInventory()//allows me to not get a null error
         {
             for (int i = 0; i < inventory.Length; i++)
             {
                 inventory[i] = _EmptySlot;
             }
         }
-        private void PrintInventory()
+        private void PrintInventory() // prints inventory lines for as long as the inventory length is
         {
             for (int i = 0; i < inventory.Length; i++)
             {
                 Console.WriteLine(inventory[i].GetName());
+            }
+        }
+        public void BuyItem(Items itemChoice, Shop shopname)
+        {
+            if (itemchoice.GetValue() <= _gold)//if player can afford then do this
+            {
+                shopname.SellItem(itemChoice);
             }
         }
     }
