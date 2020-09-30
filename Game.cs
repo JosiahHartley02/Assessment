@@ -178,7 +178,7 @@ namespace HelloWorld
             Console.ReadKey();
             BattleLoop(_player,_enemyZombie);
         }
-        private void BattleLoop(Entity player, Entity enemy)
+        private void BattleLoop(Player player, Enemy enemy)
         {
             //test for both players being alive
             while(player.GetHealth() > 0 && enemy.GetHealth() > 0)

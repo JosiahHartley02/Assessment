@@ -30,5 +30,16 @@ namespace HelloWorld
         {
             _health = _maxHealth;
         }
+        public void PrintStats()
+        {
+            Console.WriteLine(_name + "'s stats:");
+            Console.WriteLine(_health + " health remaining");
+            if (_hasMana == true)
+            {
+                Console.WriteLine(_mana + " mana remaining");
+            }
+            Console.WriteLine("Total output damage " + _baseDamage);
+            Console.WriteLine("Level " + _level);
+        }
     }
 }

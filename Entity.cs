@@ -90,18 +90,7 @@ namespace HelloWorld
             return _outputDamage;
         }
         //prints an entities stats
-        public void PrintStats()
-        {
-            Console.WriteLine(_name + "'s stats:" );
-            Console.WriteLine(_health + " health remaining");
-            if (_hasMana == true)
-            {
-                Console.WriteLine(_mana + " mana remaining");
-            }
-            Console.WriteLine("Total output damage " + _baseDamage);
-            Console.WriteLine("Level " +_level);
-            Console.WriteLine(_experience +"/100 experience");
-        }
+        
         //allows entity to attack an enemy by calling targets take damage function
         public void Attack(Entity agressor, Entity target)
         {
