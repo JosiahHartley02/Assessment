@@ -16,7 +16,6 @@ namespace HelloWorld
             _baseDamage = 0;
             _health = 0;
             _experience = 0;
-            _isDead = false;
             _level = 0;
         }
         //Constructor used to choose character
@@ -31,7 +30,6 @@ namespace HelloWorld
                     _baseDamage = 5;
                     _health = 100;
                     _experience = 0;
-                    _isDead = false;
                     _level = 0;
                     _hasMana = false;
                     break;
@@ -41,7 +39,6 @@ namespace HelloWorld
                     _baseDamage = 15;
                     _health = 100;
                     _experience = 0;
-                    _isDead = false;
                     _level = 0;
                     _mana = 50;
                     _hasMana = true;
@@ -52,7 +49,6 @@ namespace HelloWorld
                     _baseDamage = 10;
                     _health = 100;
                     _experience = 0;
-                    _isDead = false;
                     _level = 0;
                     _hasMana = false;
                     break;
@@ -62,7 +58,6 @@ namespace HelloWorld
                     _baseDamage = 10;
                     _health = 100;
                     _experience = 0;
-                    _isDead = false;
                     _level = 0;
                     _hasMana = false;
                     break;
