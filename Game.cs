@@ -43,12 +43,16 @@ namespace HelloWorld
                     MeetTheCamp();
                 }
             }
+            else if (_useOldSave == true)
+            {
+                //Put load function here
+            }
         }
 
         //Repeated until the game ends
         public void Update()
         {
-            Console.Clear();
+            CampLife();
         }
 
         //Performed once when the game ends
@@ -281,11 +285,65 @@ namespace HelloWorld
             Console.ReadKey();
         }
         
-        private void MeetTheCamp()
+        private void MeetTheCamp() // just dialogue and background info
         {
             Console.Clear();
             Console.WriteLine(_player.GetName() + " has defeated " + _enemyZombie.GetName() + "!");
-            Console.WriteLine("W");
+            Console.WriteLine("You notice a young girl has been watching the whole time from just beyond a few shrubs\n" +
+                "she urges you to follow.\n Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine(_player.GetName() + " follows the young girl into the woods for what seems like only a few minutes");
+            Console.WriteLine("She suddenly stops near a clearing revealing a small society embedded deep in the woods.");
+            Console.WriteLine("Press any key to continue to the center");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("Once you are positioned near the center camp fire, the girl explains that this is a refugee camp for \n" +
+                "those like you who have been kicked from the castle. This is your new home for the forseeable future");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        private void CampLife()
+        {
+            while (_gameOver == false)
+            {
+                char input = GetInput("Camp Shop", "Camp Rest Area", "Camp camp fire", "Wilderness Scavenge", "What will you do for now?");
+                switch (input)
+                {
+                    case '1':
+                        CampShop();
+                        break;
+                    case '2':
+                        RestArea();
+                        break;
+                    case '3':
+                        CampFire();
+                        break;
+                    case '4':
+                        FightWildLife();
+                        break;
+                }
+            }
+        }
+        private char GetInput(string option1, string option2, string option3, string option4, string query)
+        {
+            char input = ' ';
+            Console.WriteLine(query);
+
+            Console.WriteLine("1. " + option1);
+            Console.WriteLine("2. " + option1);
+            Console.WriteLine("3. " + option1);
+            Console.WriteLine("4. " + option1);
+            while (input != '1' && input != '2' && input != '3' && input != '4')
+            {
+                input = Console.ReadKey().KeyChar;
+                if (input != '1' && input != '2' && input != '3' && input != '4')
+                {
+                    Console.WriteLine("Please select a valid option");
+                }
+            }
+            return input;
         }
         //This is used to get a simple 1 or 2 char from a 2 answer question
         private char GetInput(string option1, string option2, string query)
