@@ -7,10 +7,13 @@ namespace HelloWorld
 {
     class Game
     {
-        private Items junk = new Items();
-        private Items EmptySlot = new Items(true);
-        private Player _player;
-        private Enemy _enemy = new Enemy("Zombie", 1);
+        //setting Items = to new item is initializing them then and there no need for InitItems function
+        private Items _junk = new Items();
+        public Items _EmptySlot = new Items(true);
+        private Items _damageNecklace = new Items("Necklace of Harm", 0, 2, 10);
+        private Items _healthPot = new Items("Potion of increase health", 25, 0, 5);
+        private Player _player; //player declared but not defined to allow user to choose character later in code
+        private Enemy _enemyZombie = new Enemy("Zombie", 1);
         private bool _gameOver = false;
         private bool _useOldSave;
         //Run the game
@@ -161,28 +164,7 @@ namespace HelloWorld
             Console.ReadKey();
         }
 
-        //This is used to get a simple 1 or 2 char from a 2 answer question
-        private char GetInput(string option1, string option2, string query)
-        {
-            Console.WriteLine(query);
-            Console.WriteLine("1. " + option1);
-            Console.WriteLine("2. " + option2);
-            char input = ' ';
-            while (input != '1' && input != '2')
-            {
-                input = Console.ReadKey().KeyChar;
-                switch (input)
-                {
-                    case '1':
-                    case '2':
-                        break;
-                    default:
-                        Console.WriteLine("invalid input");
-                        break;
-                }
-            }
-            return input;
-        }
+        
         private void FarEndOfThePit()
         {
             Console.Clear();
@@ -190,7 +172,7 @@ namespace HelloWorld
                 "just standing there. But unfortunately it notices you and begins to approach quickly\n" +
                 "Press any key  begin battle introduction");
             Console.ReadKey();
-            BattleLoop(_player,_enemy);
+            BattleLoop(_player,_enemyZombie);
         }
         private void BattleLoop(Entity player, Entity enemy)
         {
@@ -245,7 +227,7 @@ namespace HelloWorld
                 {
                     case 1:
                     case 2://case 1 and 2 will yeild nothing found
-                        Console.WriteLine("Unfortunately " + _enemy.GetName() + " dropped nothing!");
+                        Console.WriteLine("Unfortunately " + _enemyZombie.GetName() + " dropped nothing!");
                             break;
                     case 3://case 3 will drop a "junk"
 
@@ -298,11 +280,34 @@ namespace HelloWorld
             _gameOver = true;
             Console.ReadKey();
         }
+        
         private void MeetTheCamp()
         {
             Console.Clear();
-            Console.WriteLine(_player.GetName() + " has defeated " + _enemy.GetName() + "!");
+            Console.WriteLine(_player.GetName() + " has defeated " + _enemyZombie.GetName() + "!");
             Console.WriteLine("W");
+        }
+        //This is used to get a simple 1 or 2 char from a 2 answer question
+        private char GetInput(string option1, string option2, string query)
+        {
+            Console.WriteLine(query);
+            Console.WriteLine("1. " + option1);
+            Console.WriteLine("2. " + option2);
+            char input = ' ';
+            while (input != '1' && input != '2')
+            {
+                input = Console.ReadKey().KeyChar;
+                switch (input)
+                {
+                    case '1':
+                    case '2':
+                        break;
+                    default:
+                        Console.WriteLine("invalid input");
+                        break;
+                }
+            }
+            return input;
         }
     }
 }

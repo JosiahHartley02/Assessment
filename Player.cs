@@ -4,8 +4,11 @@ using System.Text;
 
 namespace HelloWorld
 {
-    class Player:Entity
+    class Player : Entity
     {
+
+        public Items _EmptySlot = new Items(true);
+        private Items[] inventory = new Items[3];
         //base constructor
         public Player()
         {
@@ -64,7 +67,21 @@ namespace HelloWorld
                     _hasMana = false;
                     break;
             }
+            InitInventory(); // sets every slot in inventory array to Item Empty slot as a place holder.
         }
-       
+        private void InitInventory()
+        {
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                inventory[i] = _EmptySlot;
+            }
+        }
+        private void PrintInventory()
+        {
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                Console.WriteLine(inventory[i].GetName());
+            }
+        }
     }
 }

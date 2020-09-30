@@ -7,7 +7,7 @@ namespace HelloWorld
     class Enemy:Entity
     {
         private bool _isUndead;
-        Items[] inventory = new Items[3]; 
+        private float _maxHealth; 
         //base constructor for average enemy
         public Enemy(string nameVal, int levelVal)
         {
@@ -24,6 +24,11 @@ namespace HelloWorld
                 _name ="VengeFul " + nameVal;
                 _baseDamage = 10;
             }
+            _maxHealth = _health;
+        }
+        private void ResetEnemy()
+        {
+            _health = _maxHealth;
         }
     }
 }

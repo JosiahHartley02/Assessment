@@ -30,10 +30,15 @@ namespace HelloWorld
         //PlaceHolder for inventories
         public Items(bool EmptySlot)
         {
-            _name = "EmptySlot";
+            _name = "Empty " +
+                "Slot";
             _value = 0;
             _healthBoost = 0;
             _damageBoost = 0;
+        }
+        public string GetName()
+        {
+            return _name;
         }
     }
 }
