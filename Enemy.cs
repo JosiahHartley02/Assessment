@@ -13,7 +13,7 @@ namespace HelloWorld
         {
             _name = nameVal;
             _level = levelVal;
-            _baseDamage = 5;
+            _baseDamage = 100;
             //generates a float between 0 and 2 to either weaken or increase level affect
             //multiplied by average enemy base health.
             _health = (GenerateNumber(0, 2) * levelVal) * 50;

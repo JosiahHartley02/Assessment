@@ -35,21 +35,24 @@ namespace HelloWorld
                 ChooseCharacter();
                 Introduction();
                 FarEndOfThePit();
+                if (_gameOver == false)
+                {
+                    MeetTheCamp();
+                }
             }
-
-
         }
 
         //Repeated until the game ends
         public void Update()
         {
-
+            Console.Clear();
         }
 
         //Performed once when the game ends
         public void End()
         {
-
+            Console.Clear();
+            Console.WriteLine("Thank you for playing my game!");
         }
         //Allows user to select one of 4 characters each with defining features
         private void ChooseCharacter()
@@ -236,6 +239,24 @@ namespace HelloWorld
             {
                 //after battle if player was the last alive they gain experience
                 Console.WriteLine("You gained " + player.GainExperience(enemy) + " experience!");
+                //after battle the enemy may drop an item
+                int lootchance = GenerateNumber(1, 5, true);
+                switch (lootchance)
+                {
+                    case 1:
+                    case 2://case 1 and 2 will yeild nothing found
+                        Console.WriteLine("Unfortunately " + _enemy.GetName() + " dropped nothing!");
+                            break;
+                    case 3://case 3 will drop a "junk"
+
+                    case 4: //case 4 will drop damage increase necklace
+
+                        break;
+                    case 5: //case 5 will drop health increase potion
+
+                        break;
+                    
+                }
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
@@ -260,14 +281,28 @@ namespace HelloWorld
             float number = r.Next(min, max);
             return number;
         }
+        public int GenerateNumber(int min, int max, bool integer)
+        {
+            Random r = new Random();
+            int number = r.Next(min, max);
+            return number;
+        }
         public void Death()
         {
+            Console.Clear();
             Console.WriteLine("You have succumbed to that of a fungi, neither alive nor dead \n" +
                     "forever growing and forever rotting, but what is death to someone whos never lived?");
             Console.WriteLine("Final Stats");
             _player.PrintStats();
             Console.WriteLine("Press any key to continue");
+            _gameOver = true;
             Console.ReadKey();
+        }
+        private void MeetTheCamp()
+        {
+            Console.Clear();
+            Console.WriteLine(_player.GetName() + " has defeated " + _enemy.GetName() + "!");
+            Console.WriteLine("W");
         }
     }
 }
