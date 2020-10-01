@@ -44,5 +44,13 @@ namespace HelloWorld
         {
             return _value;
         }
+        public float GetDamageBoost()
+        {
+            return _damageBoost;
+        }
+        public float GetHealthBoost()
+        {
+            return _healthBoost;
+        }
     }
 }

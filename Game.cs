@@ -12,8 +12,9 @@ namespace HelloWorld
         public Items _EmptySlot = new Items(true);
         private Items _damageNecklace = new Items("Necklace of Harm", 0, 2, 10);
         private Items _healthPot = new Items("Potion of increase health", 25, 0, 5);
+        private Items _sword = new Items("Another Sword", 0, 5, 10);
+        private Shop _shop;
         private Player _player; //player declared but not defined to allow user to choose character later in code
-        private Enemy _enemyZombie = new Enemy("Zombie", 1);
         private bool _gameOver = false;
         private bool _useOldSave;
         //Run the game
@@ -31,6 +32,7 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
+            InitStore();
             ControlIntro();
             MainMenu();
             if (_useOldSave == false)
@@ -45,7 +47,7 @@ namespace HelloWorld
             }
             else if (_useOldSave == true)
             {
-                //Put load function here
+                Load();
             }
         }
 
@@ -60,6 +62,12 @@ namespace HelloWorld
         {
             Console.Clear();
             Console.WriteLine("Thank you for playing my game!");
+        }
+        private void InitStore()
+        {
+            _shop.SetItem(_sword, 0);
+            _shop.SetItem(_healthPot, 1);
+            _shop.SetItem(_damageNecklace, 2);
         }
         //Allows user to select one of 4 characters each with defining features
         private void ChooseCharacter()
@@ -168,7 +176,7 @@ namespace HelloWorld
             Console.ReadKey();
         }
 
-        
+
         private void FarEndOfThePit()
         {
             Console.Clear();
@@ -176,12 +184,13 @@ namespace HelloWorld
                 "just standing there. But unfortunately it notices you and begins to approach quickly\n" +
                 "Press any key  begin battle introduction");
             Console.ReadKey();
-            BattleLoop(_player,_enemyZombie);
+            BattleLoop(_player);
         }
-        private void BattleLoop(Player player, Enemy enemy)
+        private void BattleLoop(Player player)
         {
+            Enemy enemy = new Enemy("Zombie", 1);
             //test for both players being alive
-            while(player.GetHealth() > 0 && enemy.GetHealth() > 0)
+            while (player.GetHealth() > 0 && enemy.GetHealth() > 0)
             {
                 Console.Clear();
                 player.PrintStats();
@@ -201,7 +210,7 @@ namespace HelloWorld
                     }
                 }
                 //makes sure enemy is alive before attacking
-                if (enemy.GetHealth() > 0 )
+                if (enemy.GetHealth() > 0)
                 {
                     //adds "ai" in the sense that attacks are randomized
                     float EnemyChoice = GenerateNumber(1, 10);
@@ -221,8 +230,10 @@ namespace HelloWorld
                     }
                 }
             }
-            if(player.GetHealth() > 0)
+            if (player.GetHealth() > 0)
             {
+                Console.Clear();
+                Console.WriteLine(_player.GetName() + " has defeated " + enemy.GetName() + "!");
                 //after battle if player was the last alive they gain experience
                 Console.WriteLine("You gained " + player.GainExperience(enemy) + " experience!");
                 //after battle the enemy may drop an item
@@ -231,17 +242,21 @@ namespace HelloWorld
                 {
                     case 1:
                     case 2://case 1 and 2 will yeild nothing found
-                        Console.WriteLine("Unfortunately " + _enemyZombie.GetName() + " dropped nothing!");
-                            break;
+                        Console.WriteLine("Unfortunately " + enemy.GetName() + " dropped nothing!");
+                        break;
                     case 3://case 3 will drop a "junk"
-
+                        Console.WriteLine("The foe dropped a " + _junk.GetName());
+                        _player.EquipItem(_junk);
+                        break;
                     case 4: //case 4 will drop damage increase necklace
-
+                        Console.WriteLine("The foe dropped a " + _damageNecklace.GetName());
+                        _player.EquipItem(_damageNecklace);
                         break;
                     case 5: //case 5 will drop health increase potion
-
+                        Console.WriteLine("The foe dropped a" + _healthPot.GetName());
+                        _player.EquipItem(_healthPot);
                         break;
-                    
+
                 }
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
@@ -254,14 +269,63 @@ namespace HelloWorld
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
             }
-            else if(enemy.GetHealth() > 0)
+            else if (enemy.GetHealth() > 0)
             {
                 Death();
             }
         }
-        //takes in min and max to make generating numbers easy and variables non permanent
-        //i really like this function
-        public float GenerateNumber(int min, int max)
+        private void HuntAnimal(Player player)
+        {
+            int number = GenerateNumber(1, 3, true);
+            WildLife animal = new WildLife(number);
+            Console.WriteLine(player.GetName() + " has stumbled upon a " + animal.GetName());
+            while (player.GetHealth() > 0 && animal.GetHealth() > 0)
+            {
+                if (player.GetHealth() > 0)
+                {
+                    char input = GetInput("Attack soft", "Attack Hard", "What does " + player.GetName() + " do?");
+                    if (input == '1')
+                    {
+                        player.Attack(player, animal);
+                    }
+                    else
+                    {
+                        player.BlindAttack(player, animal);
+                    }
+                }
+                if (animal.GetHealth() > 0)
+                {
+                    float hitchoice = GenerateNumber(1, 10);
+                    if (hitchoice >= 5)
+                    {
+                        animal.Attack(animal, player);
+                    }
+                    else
+                    {
+                        animal.Attack(animal, player);
+                    }
+                }
+            }
+            if (player.GetHealth() <= 0)
+            {
+                Death();
+            }
+            else
+            {
+                Console.WriteLine(player.GetName() + " has proven to be stronger than " + animal.GetName());
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+                Console.Clear();
+                if (_player.GetExperience() >= 100)
+                {
+                    _player.LevelUP();
+                }
+                player.PrintStats();
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+            }
+        }
+        public float GenerateNumber(int min, int max) //takes in min and max to make generating numbers easy and variables non permanent
         {
             Random r = new Random();
             float number = r.Next(min, max);
@@ -273,7 +337,7 @@ namespace HelloWorld
             int number = r.Next(min, max);
             return number;
         }
-        public void Death()
+        public void Death() //Just dialogue and background info
         {
             Console.Clear();
             Console.WriteLine("You have succumbed to that of a fungi, neither alive nor dead \n" +
@@ -284,11 +348,9 @@ namespace HelloWorld
             _gameOver = true;
             Console.ReadKey();
         }
-        
+
         private void MeetTheCamp() // just dialogue and background info
         {
-            Console.Clear();
-            Console.WriteLine(_player.GetName() + " has defeated " + _enemyZombie.GetName() + "!");
             Console.WriteLine("You notice a young girl has been watching the whole time from just beyond a few shrubs\n" +
                 "she urges you to follow.\n Press any key to continue");
             Console.ReadKey();
@@ -308,7 +370,7 @@ namespace HelloWorld
         {
             while (_gameOver == false)
             {
-                char input = GetInput("Camp Shop", "Camp Rest Area", "Camp camp fire", "Wilderness Scavenge", "What will you do for now?");
+                char input = GetInput("Camp Shop", "Camp Rest Area", "Wilderness Scavenge", "Save" , "What will you do for now?");
                 switch (input)
                 {
                     case '1':
@@ -318,10 +380,18 @@ namespace HelloWorld
                         RestArea();
                         break;
                     case '3':
-                        CampFire();
+                        float enemychance = GenerateNumber(1, 10);
+                        if (enemychance >= 5)
+                        {
+                            HuntAnimal(_player);
+                        }
+                        else
+                        {
+                            BattleLoop(_player);
+                        }
                         break;
                     case '4':
-                        FightWildLife();
+                        Save();
                         break;
                 }
             }
@@ -329,18 +399,50 @@ namespace HelloWorld
         private void CampShop()
         {
             Console.Clear();
+            _shop.PrintShop();
+            char input = GetInput(_shop.GetItem(0).GetName(), _shop.GetItem(1).GetName(), _shop.GetItem(2).GetName(), "Cancel", "What do ya need little one?");
+            switch (input)
+            {
+                case '1':
+                    _player.BuyItem(_shop, 0);
+                    break;
+                case '2':
+                    _player.BuyItem(_shop, 1);
+                    break;
+                case '3':
+                    _player.BuyItem(_shop, 2);
+                    break;
+                case '4':
+                    Console.WriteLine("Alright Ill Be Seeing You Around Then\nPress any key to continue");
+                    Console.ReadKey();
+                    break;
+            }
         }
         private void RestArea()
         {
-
+            Console.Clear();
+            char input = GetInput("heal", "leave", "The camp fire looks comfy, do you wish to heal?");
+            if (input == '1')
+            {
+                _player.HealFromRest(25);
+            }
+            else
+            {
+                Console.WriteLine("yea maybe another time");
+            }
         }
-        private void CampFire()
+        
+        public void Save()
         {
-
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+            _player.Save(writer);
+            writer.Close();
         }
-        private void FightWildLife()
+        public void Load()
         {
-
+            StreamReader reader = new StreamReader("SaveData.txt");
+            _player.Load(reader);
+            reader.Close();
         }
         private char GetInput(string option1, string option2, string option3, string option4, string query) //gets either 1 2 3 or 4 as a char input and prints a query
         {
@@ -371,14 +473,9 @@ namespace HelloWorld
             while (input != '1' && input != '2')
             {
                 input = Console.ReadKey().KeyChar;
-                switch (input)
+                if (input != '1' && input != '2')
                 {
-                    case '1':
-                    case '2':
-                        break;
-                    default:
-                        Console.WriteLine("invalid input");
-                        break;
+                    Console.WriteLine("Please select a valid option");
                 }
             }
             return input;

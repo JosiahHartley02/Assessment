@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace HelloWorld
@@ -84,6 +85,7 @@ namespace HelloWorld
             if (shopname.GetValue(arrayPosition) <= _gold)//if player can afford then do this
             {
                 shopname.SellItem(shopname.GetItem(arrayPosition)); //The shop increases its value by the value of the item in the
+                EquipItem(shopname.GetItem(arrayPosition));
             }                                                     //shops inventory array at the desired position declared above
             else
             {
@@ -104,7 +106,25 @@ namespace HelloWorld
         {
             Console.Clear();
             Console.WriteLine("This will destroy any item in the slot, no givesie's backsie's");
-            
+            char input = GetInput(inventory[0].GetName(), inventory[1].GetName(), inventory[2].GetName(), "cancel", "Where would you like to place your item");
+            switch (input)
+            {
+                case '1':
+                    inventory[0] = itemname;
+                    break;
+                case '2':
+                    inventory[1] = itemname;
+                    break;
+                case '3':
+                    inventory[2] = itemname;
+                    break;
+                case '4':
+                    Console.Clear();
+                    Console.WriteLine("Process canceled\nPress any key to continue");
+                    Console.ReadKey();
+
+                    break;
+            }
         }
         public void PrintStats() //Prints players stats
         {
@@ -119,12 +139,13 @@ namespace HelloWorld
             Console.WriteLine(_experience + "/100 experience");
             Console.WriteLine(_gold + " total gold");
         }
-        private char GetInput(char option1, char option2, char option3, string query) // prints a message, takes in 3 choices, and returns the choice as a char
+        private char GetInput(string option1, string option2, string option3, string option4, string query) // prints a message, takes in 3 choices, and returns the choice as a char
         {
             Console.WriteLine(query);
             Console.WriteLine("1. " + option1);
             Console.WriteLine("2. " + option2);
             Console.WriteLine("3. " + option3);
+            Console.WriteLine("4. " + option4);
             char input = ' ';
             while (input != '1' && input != '2' && input != '3') //repeat the question while the input is not something useable 
             {
@@ -136,5 +157,116 @@ namespace HelloWorld
             }
             return input;
         }
+        public void HealFromRest(int healthHealed)
+        {
+            _health += healthHealed;
+            Console.WriteLine("You just healed " + healthHealed + " for a total of " + _health + " total health!");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+        }
+        public virtual void Save(StreamWriter writer)
+        {
+            writer.WriteLine(_name);
+            writer.WriteLine(_health);
+            writer.WriteLine(_baseDamage);
+            writer.WriteLine(_level);
+            writer.WriteLine(_experience);
+            writer.WriteLine(_gold);
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                writer.WriteLine(inventory[i].GetName());
+                writer.WriteLine(inventory[i].GetValue());
+                writer.WriteLine(inventory[i].GetDamageBoost());
+                writer.WriteLine(inventory[i].GetHealthBoost());
+            }
+        }
+        public virtual bool Load(StreamReader reader)
+        {
+            string name = reader.ReadLine();
+            float health = 0;
+            float baseDamage = 0;
+            int level = 0;
+            float exp = 0;
+            int gold = 0;
+            int item1Value;
+            float item1damage;
+            float item1health;
+            int item2Value;
+            float item2damage;
+            float item2health;
+            int item3Value;
+            float item3damage;
+            float item3health;
+            if (float.TryParse(reader.ReadLine(), out health) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out baseDamage) == false)
+            {
+                return false;
+            }
+            if (int.TryParse(reader.ReadLine(), out level) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out exp) == false)
+            {
+                return false;
+            }
+            if (int.TryParse(reader.ReadLine(), out gold) == false)
+            {
+                return false;
+            }
+            string item1name = reader.ReadLine();
+            if (int.TryParse(reader.ReadLine(), out item1Value) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out item1damage) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out item1health) == false)
+            {
+                return false;
+            }
+            string item2name = reader.ReadLine();
+            if (int.TryParse(reader.ReadLine(), out item2Value) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out item2damage) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out item2health) == false)
+            {
+                return false;
+            }
+            string item3name = reader.ReadLine();
+            if (int.TryParse(reader.ReadLine(), out item3Value) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out item3damage) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out item3health) == false)
+            {
+                return false;
+            }
+            _name = name;
+            _health = health;
+            _baseDamage = baseDamage;
+            _level = level;
+            _experience = exp;
+            _gold = gold;
+            inventory[0] = new Items(item1name, item1health, item1damage, item1Value);
+            inventory[1] = new Items(item2name, item2health, item2damage, item2Value);
+            inventory[2] = new Items(item3name, item3health, item3damage, item3Value);
+            return true;
+        }
+
     }
 }
