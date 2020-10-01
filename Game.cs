@@ -11,10 +11,10 @@ namespace HelloWorld
         private Items _junk = new Items();
         public Items _EmptySlot = new Items(true);
         private Items _damageNecklace = new Items("Necklace of Harm", 0, 2, 10);
-        private Items _healthPot = new Items("Potion of increase health", 25, 0, 5);
+        private Items healthnecklace = new Items("Necklace of increase health", 25, 0, 5);
         private Items _sword = new Items("Another Sword", 0, 5, 10);
-        private Shop _shop;
-        private Player _player; //player declared but not defined to allow user to choose character later in code
+        private Shop _shop = new Shop();
+        private Player _player = new Player(); //player declared but not defined to allow user to choose character later in code
         private bool _gameOver = false;
         private bool _useOldSave;
         //Run the game
@@ -66,7 +66,7 @@ namespace HelloWorld
         private void InitStore()
         {
             _shop.SetItem(_sword, 0);
-            _shop.SetItem(_healthPot, 1);
+            _shop.SetItem(healthnecklace, 1);
             _shop.SetItem(_damageNecklace, 2);
         }
         //Allows user to select one of 4 characters each with defining features
@@ -236,6 +236,8 @@ namespace HelloWorld
                 Console.WriteLine(_player.GetName() + " has defeated " + enemy.GetName() + "!");
                 //after battle if player was the last alive they gain experience
                 Console.WriteLine("You gained " + player.GainExperience(enemy) + " experience!");
+                _player.GoldEarned(5);
+                Console.WriteLine("You gained 5 gold!");
                 //after battle the enemy may drop an item
                 int lootchance = GenerateNumber(1, 5, true);
                 switch (lootchance)
@@ -243,18 +245,26 @@ namespace HelloWorld
                     case 1:
                     case 2://case 1 and 2 will yeild nothing found
                         Console.WriteLine("Unfortunately " + enemy.GetName() + " dropped nothing!");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
                         break;
                     case 3://case 3 will drop a "junk"
                         Console.WriteLine("The foe dropped a " + _junk.GetName());
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
                         _player.EquipItem(_junk);
                         break;
                     case 4: //case 4 will drop damage increase necklace
                         Console.WriteLine("The foe dropped a " + _damageNecklace.GetName());
-                        _player.EquipItem(_damageNecklace);
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
+                        _player.EquipItem(_damageNecklace);                        
                         break;
                     case 5: //case 5 will drop health increase potion
-                        Console.WriteLine("The foe dropped a" + _healthPot.GetName());
-                        _player.EquipItem(_healthPot);
+                        Console.WriteLine("The foe dropped a" + healthnecklace.GetName());
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
+                        _player.EquipItem(healthnecklace);
                         break;
 
                 }
@@ -370,6 +380,7 @@ namespace HelloWorld
         {
             while (_gameOver == false)
             {
+                Console.Clear();
                 char input = GetInput("Camp Shop", "Camp Rest Area", "Wilderness Scavenge", "Save" , "What will you do for now?");
                 switch (input)
                 {
@@ -398,24 +409,29 @@ namespace HelloWorld
         }
         private void CampShop()
         {
-            Console.Clear();
-            _shop.PrintShop();
-            char input = GetInput(_shop.GetItem(0).GetName(), _shop.GetItem(1).GetName(), _shop.GetItem(2).GetName(), "Cancel", "What do ya need little one?");
-            switch (input)
+            bool leave = false;
+            while (leave == false)
             {
-                case '1':
-                    _player.BuyItem(_shop, 0);
-                    break;
-                case '2':
-                    _player.BuyItem(_shop, 1);
-                    break;
-                case '3':
-                    _player.BuyItem(_shop, 2);
-                    break;
-                case '4':
-                    Console.WriteLine("Alright Ill Be Seeing You Around Then\nPress any key to continue");
-                    Console.ReadKey();
-                    break;
+                Console.Clear();
+                _player.PrintStats();
+                char input = GetInput(_shop.GetItem(0), _shop.GetItem(1), _shop.GetItem(2), "Cancel", "What do ya need little one?");
+                switch (input)
+                {
+                    case '1':
+                        _player.BuyItem(_shop, 0);
+                        break;
+                    case '2':
+                        _player.BuyItem(_shop, 1);
+                        break;
+                    case '3':
+                        _player.BuyItem(_shop, 2);
+                        break;
+                    case '4':
+                        Console.WriteLine("Alright Ill Be Seeing You Around Then\nPress any key to continue");
+                        leave = true;
+                        Console.ReadKey();
+                        break;
+                }
             }
         }
         private void RestArea()
@@ -437,6 +453,8 @@ namespace HelloWorld
             StreamWriter writer = new StreamWriter("SaveData.txt");
             _player.Save(writer);
             writer.Close();
+            Console.WriteLine("Saved, press any key to continue");
+            Console.ReadKey();
         }
         public void Load()
         {
@@ -450,9 +468,28 @@ namespace HelloWorld
             Console.WriteLine(query);
 
             Console.WriteLine("1. " + option1);
-            Console.WriteLine("2. " + option1);
-            Console.WriteLine("3. " + option1);
-            Console.WriteLine("4. " + option1);
+            Console.WriteLine("2. " + option2);
+            Console.WriteLine("3. " + option3);
+            Console.WriteLine("4. " + option4);
+            while (input != '1' && input != '2' && input != '3' && input != '4')
+            {
+                input = Console.ReadKey().KeyChar;
+                if (input != '1' && input != '2' && input != '3' && input != '4')
+                {
+                    Console.WriteLine("Please select a valid option");
+                }
+            }
+            return input;
+        }
+        private char GetInput(Items option1, Items option2, Items option3, string option4, string query) //gets either 1 2 3 or 4 as a char input and prints a query
+        {
+            char input = ' ';
+            Console.WriteLine(query);
+
+            Console.WriteLine("1. " + option1.GetName() + " costs " + option1.GetValue());
+            Console.WriteLine("2. " + option2.GetName() + " costs " + option2.GetValue());
+            Console.WriteLine("3. " + option3.GetName() + " costs " + option3.GetValue());
+            Console.WriteLine("4. " + option4);
             while (input != '1' && input != '2' && input != '3' && input != '4')
             {
                 input = Console.ReadKey().KeyChar;

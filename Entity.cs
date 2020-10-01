@@ -16,6 +16,7 @@ namespace HelloWorld
         protected float _experience;
         protected int _mana;
         protected bool _hasMana;
+        protected Items[] inventory = new Items[3];
         //template constructor
         public Entity()
         {
@@ -86,7 +87,9 @@ namespace HelloWorld
         //allows entity to attack an enemy by calling targets take damage function
         public void Attack(Entity agressor, Entity target)
         {
-            float damage = agressor._baseDamage;
+            float damage = agressor._baseDamage += agressor.inventory[0].GetDamageBoost();
+            damage += agressor.inventory[1].GetDamageBoost();
+            damage += agressor.inventory[2].GetDamageBoost();
             target.TakeDamage(damage);
             Console.WriteLine(agressor._name + " hit " + target._name + " for " + damage + " damage!");
             Console.WriteLine("Press any key to continue");

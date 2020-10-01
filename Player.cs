@@ -9,7 +9,6 @@ namespace HelloWorld
     {
         private int _gold;
         public Items _EmptySlot = new Items(true);
-        private Items[] inventory = new Items[3];
         //base constructor
         public Player()
         {
@@ -84,6 +83,7 @@ namespace HelloWorld
         {
             if (shopname.GetValue(arrayPosition) <= _gold)//if player can afford then do this
             {
+                _gold -= shopname.GetItem(arrayPosition).GetValue();
                 shopname.SellItem(shopname.GetItem(arrayPosition)); //The shop increases its value by the value of the item in the
                 EquipItem(shopname.GetItem(arrayPosition));
             }                                                     //shops inventory array at the desired position declared above
@@ -105,7 +105,7 @@ namespace HelloWorld
         public void EquipItem(Items itemname)
         {
             Console.Clear();
-            Console.WriteLine("This will destroy any item in the slot, no givesie's backsie's");
+            Console.WriteLine("Where would you like to store your item, other items may be overridden do not stack items");
             char input = GetInput(inventory[0].GetName(), inventory[1].GetName(), inventory[2].GetName(), "cancel", "Where would you like to place your item");
             switch (input)
             {
@@ -122,9 +122,11 @@ namespace HelloWorld
                     Console.Clear();
                     Console.WriteLine("Process canceled\nPress any key to continue");
                     Console.ReadKey();
-
                     break;
             }
+            PrintInventory();
+            Console.WriteLine("press any key to continue");
+            Console.ReadKey();
         }
         public void PrintStats() //Prints players stats
         {
@@ -156,6 +158,10 @@ namespace HelloWorld
                 }
             }
             return input;
+        }
+        public void GoldEarned(int goldearned)
+        {
+            _gold += goldearned;
         }
         public void HealFromRest(int healthHealed)
         {

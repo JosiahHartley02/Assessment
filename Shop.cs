@@ -64,7 +64,7 @@ namespace HelloWorld
         }
         public void SetItem(Items itemname, int arrayPostion)
         {
-            itemname = _inventory[arrayPostion];
+            _inventory[arrayPostion] = itemname;
         }
         public string GetName()
         {
@@ -73,15 +73,6 @@ namespace HelloWorld
         public int GetGold()
         {
             return _totalGold;
-        }
-        public void PrintShop()
-        {
-            Console.WriteLine(GetName() + " has " + GetGold() + " remaining");
-            for(int i = 0; i <_inventory.Length; i++)
-            {
-                int a = 0;
-                Console.WriteLine((a++)+ ". " + _inventory[i].GetName());
-            }
         }
     }
 }
