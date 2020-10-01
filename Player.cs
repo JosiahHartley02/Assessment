@@ -7,9 +7,10 @@ namespace HelloWorld
 {
     class Player : Entity
     {
+
+        protected float _maxHealth;
         private int _gold;
-        //base constructor
-        public Player()
+        public Player() //base constructor
         {
             _name = "UnNammed";
             _baseDamage = 0;
@@ -24,7 +25,6 @@ namespace HelloWorld
             switch (choice)
             {
                 case 1:
-                    //Mouseman is a thief that what he lacks in combat makes up for in increased loot potential
                     _name = "Mouse Man";
                     _baseDamage = 5;
                     _health = 100;
@@ -33,7 +33,6 @@ namespace HelloWorld
                     _hasMana = false;
                     break;
                 case 2:
-                    //Merlin is a wizard that what he lacks in loot potential makes up for with damage
                     _name = "Merlin";
                     _baseDamage = 15;
                     _health = 100;
@@ -43,7 +42,6 @@ namespace HelloWorld
                     _hasMana = true;
                     break;
                 case 3:
-                    //WolfGang is a deaf musician who uses horrible music to deal damage, nothing stands out
                     _name = "WolfGang";
                     _baseDamage = 10;
                     _health = 100;
@@ -52,7 +50,6 @@ namespace HelloWorld
                     _hasMana = false;
                     break;
                 case 4:
-                    //Eisenburg is a necromancer that can steal life from the undead
                     _name = "Proffessor Eisenburg";
                     _baseDamage = 10;
                     _health = 100;
@@ -62,6 +59,7 @@ namespace HelloWorld
                     break;
             }
             _gold = 0;
+            _maxHealth = _health;
             InitInventory();
         }
         private void PrintInventory() // prints item names at each position in the inventory aray
@@ -71,6 +69,21 @@ namespace HelloWorld
                 Console.WriteLine(inventory[i].GetName());
             }
         }
+        public float GainExperience(Entity enemy) // player earns experience depending on the level of the enemy
+        {
+            float experiencegained = 25 * enemy.GetLevel();
+            _experience += experiencegained;
+            return experiencegained;
+        }
+        public void LevelUP() // tests for each lvl the player could level
+        {
+            for (float i = _experience; i >= 100; i -= 100)
+            {
+                _level += 1;
+                _experience -= 100;
+            }
+        }
+
         public void BuyItem(Shop shopname, int arrayPosition) //takes in a shop object and an int for the position in the array
         {
             if (shopname.GetValue(arrayPosition) <= _gold)//if player can afford then do this
@@ -94,7 +107,7 @@ namespace HelloWorld
                 inventory[arrayPosition] = _EmptySlot;         //removes the item from the players inventory
             }
         }
-        public void EquipItem(Items itemname)
+        public void EquipItem(Items itemname) //Allows player to put an item in a specific slot, then updates max health in case an item was removed or added
         {
             Console.Clear();
             Console.WriteLine("Where would you like to store your item, other items may be overridden do not stack items");
@@ -116,7 +129,9 @@ namespace HelloWorld
                     Console.ReadKey();
                     break;
             }
+            Console.Clear();
             PrintInventory();
+            UpdateMaxHealth();
             Console.WriteLine("press any key to continue");
             Console.ReadKey();
         }
@@ -124,7 +139,7 @@ namespace HelloWorld
         {
             float outputDamage = _baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost();
             Console.WriteLine(_name + "'s stats:");
-            Console.WriteLine(_health + " health remaining");
+            Console.WriteLine(_health + "/" + _maxHealth + " health remaining");
             if (_hasMana == true)
             {
                 Console.WriteLine(_mana + " mana remaining");
@@ -142,28 +157,36 @@ namespace HelloWorld
             Console.WriteLine("3. " + option3);
             Console.WriteLine("4. " + option4);
             char input = ' ';
-            while (input != '1' && input != '2' && input != '3') //repeat the question while the input is not something useable 
+            while (input != '1' && input != '2' && input != '3' && input !='4') //repeat the question while the input is not something useable 
             {
                 input = Console.ReadKey().KeyChar;
-                if (input != '1' && input != '2' && input != '3')
+                if (input != '1' && input != '2' && input != '3' && input != '4')
                 {
                     Console.WriteLine("Invalid input");
                 }
             }
             return input;
         }
-        public void GoldEarned(int goldearned)
+        public void GoldEarned(int goldearned) //Takes in an int then adds to player gold
         {
             _gold += goldearned;
         }
-        public void HealFromRest(int healthHealed)
+        public void HealFromRest(int healthHealed) //heals the player for specific amount;
         {
             _health += healthHealed;
-            Console.WriteLine("You just healed " + healthHealed + " for a total of " + _health + " total health!");
+            if (_health > _maxHealth)
+            {
+                _health = _maxHealth;
+            }
+            Console.WriteLine("You just healed for a total of " + _health + "/" + _maxHealth + " total health!");
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
-        public virtual void Save(StreamWriter writer)
+        public void UpdateMaxHealth() // updates max health to the the base health plus all items healthboost;
+        {
+            _maxHealth += inventory[0].GetHealthBoost() + inventory[1].GetHealthBoost() + inventory[2].GetHealthBoost();
+        }
+        public virtual void Save(StreamWriter writer) // saves important player data
         {
             writer.WriteLine(_name);
             writer.WriteLine(_health);
@@ -171,6 +194,7 @@ namespace HelloWorld
             writer.WriteLine(_level);
             writer.WriteLine(_experience);
             writer.WriteLine(_gold);
+            writer.WriteLine(_maxHealth);
             for (int i = 0; i < inventory.Length; i++)
             {
                 writer.WriteLine(inventory[i].GetName());
@@ -179,7 +203,7 @@ namespace HelloWorld
                 writer.WriteLine(inventory[i].GetHealthBoost());
             }
         }
-        public virtual bool Load(StreamReader reader)
+        public virtual bool Load(StreamReader reader) //loads important player data
         {
             string name = reader.ReadLine();
             float health = 0;
@@ -187,6 +211,7 @@ namespace HelloWorld
             int level = 0;
             float exp = 0;
             int gold = 0;
+            float maxhealth = 0;
             int item1Value;
             float item1damage;
             float item1health;
@@ -196,15 +221,15 @@ namespace HelloWorld
             int item3Value;
             float item3damage;
             float item3health;
-            if (float.TryParse(reader.ReadLine(), out health) == false)
+            if (float.TryParse(reader.ReadLine(), out health) == false) // Tryparse converts the string text to a float here and prints out a health value
+            {
+                return false;                                          //if Tryparse is unable to convert, then the save must be corrupt
+            }
+            if (float.TryParse(reader.ReadLine(), out baseDamage) == false) //
             {
                 return false;
             }
-            if (float.TryParse(reader.ReadLine(), out baseDamage) == false)
-            {
-                return false;
-            }
-            if (int.TryParse(reader.ReadLine(), out level) == false)
+            if (int.TryParse(reader.ReadLine(), out level) == false)// Tryparse converts the string text to a int here
             {
                 return false;
             }
@@ -213,6 +238,10 @@ namespace HelloWorld
                 return false;
             }
             if (int.TryParse(reader.ReadLine(), out gold) == false)
+            {
+                return false;
+            }
+            if (float.TryParse(reader.ReadLine(), out maxhealth) == false)
             {
                 return false;
             }
@@ -261,11 +290,11 @@ namespace HelloWorld
             _level = level;
             _experience = exp;
             _gold = gold;
+            _maxHealth = maxhealth;
             inventory[0] = new Items(item1name, item1health, item1damage, item1Value);
             inventory[1] = new Items(item2name, item2health, item2damage, item2Value);
             inventory[2] = new Items(item3name, item3health, item3damage, item3Value);
             return true;
         }
-
     }
 }

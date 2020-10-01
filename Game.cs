@@ -168,9 +168,8 @@ namespace HelloWorld
                 }
             }
         }
-        private void ControlIntro()
+        private void ControlIntro()//should help clear up any actual question
         {
-            //should help clear up any problem that any player has with maybe being completely inept
             Console.WriteLine("This game consists of very few controls, use numpad or number row to\n" +
                 "select options, if you enter an invalid option you will be told, often you may be prompted\n" +
                 "to press any key to continue, please read each screen thouroughly before deciding");
@@ -179,7 +178,7 @@ namespace HelloWorld
         }
 
 
-        private void FarEndOfThePit()
+        private void FarEndOfThePit()//Just use to hold specific text looks neater
         {
             Console.Clear();
             Console.WriteLine(_player.GetName() + ": upon arriving at the far end of the gate, you notice an undead peasant\n" +
@@ -188,7 +187,7 @@ namespace HelloWorld
             Console.ReadKey();
             BattleLoop(_player);
         }
-        private void BattleLoop(Player player)
+        private void BattleLoop(Player player) //player fights against a zombie
         {
             Enemy enemy = new Enemy("Zombie", 1);
             //test for both players being alive
@@ -199,8 +198,7 @@ namespace HelloWorld
                 player.PrintStats();
                 Console.WriteLine();
                 enemy.PrintStats();
-                //makes sure player is alive before attacking
-                if (player.GetHealth() > 0)
+                if (player.GetHealth() > 0)//makes sure player is alive before attacking
                 {
                     char input = GetInput("Attack soft yet sure", "Attack hard yet blind", "What move will you choose?");
                     if (input == '1')
@@ -212,18 +210,15 @@ namespace HelloWorld
                         player.BlindAttack(player, enemy);
                     }
                 }
-                //makes sure enemy is alive before attacking
-                if (enemy.GetHealth() > 0)
+                if (enemy.GetHealth() > 0)//makes sure enemy is alive before attacking
                 {
-                    //adds "ai" in the sense that attacks are randomized
-                    float EnemyChoice = GenerateNumber(1, 10);
+                    float EnemyChoice = GenerateNumber(1, 10);//adds randomized attacks
                     if (EnemyChoice >= 6)
                     {
                         enemy.Attack(enemy, player);
                     }
-                    else if (EnemyChoice == 5)
+                    else if (EnemyChoice == 5) //Just a good RNG possibility
                     {
-                        //i thought it would be cool to have a chance for nothing to happen
                         Console.WriteLine(enemy.GetName() + " doesn't seem interested");
                         Console.ReadKey();
                     }
@@ -263,7 +258,7 @@ namespace HelloWorld
                         Console.ReadLine();
                         _player.EquipItem(_damageNecklace);                        
                         break;
-                    case 5: //case 5 will drop health increase potion
+                    case 5: //case 5 will drop health increase necklace
                         Console.WriteLine("The foe dropped a" + healthnecklace.GetName());
                         Console.WriteLine("Press any key to continue");
                         Console.ReadLine();
@@ -287,7 +282,7 @@ namespace HelloWorld
                 Death();
             }
         }
-        private void HuntAnimal(Player player)
+        private void HuntAnimal(Player player) //allows player to possibly find an easy source of xp.
         {
             int number = GenerateNumber(1, 3, true);
             WildLife animal = new WildLife(number);
@@ -330,6 +325,7 @@ namespace HelloWorld
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
+                player.GainExperience(animal);
                 if (_player.GetExperience() >= 100)
                 {
                     _player.LevelUP();
@@ -380,7 +376,7 @@ namespace HelloWorld
             Console.ReadKey();
             Console.Clear();
         }
-        private void CampLife()
+        private void CampLife() // The main loop that tha player can save from or load to
         {
             while (_gameOver == false)
             {
@@ -411,14 +407,14 @@ namespace HelloWorld
                 }
             }
         }
-        private void CampShop()
+        private void CampShop() // allows player to buy 3 different items or as many items as wanted.
         {
             bool leave = false;
             while (leave == false)
             {
                 Console.Clear();
                 _player.PrintStats();
-                char input = GetInput(_shop.GetItem(0), _shop.GetItem(1), _shop.GetItem(2), "Cancel", "What do ya need little one?");
+                char input = GetInput(_shop.GetItem(0), _shop.GetItem(1), _shop.GetItem(2), "Leave", "What do ya need little one?");
                 switch (input)
                 {
                     case '1':
@@ -438,7 +434,7 @@ namespace HelloWorld
                 }
             }
         }
-        private void RestArea()
+        private void RestArea() //Allows player to heal as much as needed
         {
             Console.Clear();
             char input = GetInput("heal", "leave", "The camp fire looks comfy, do you wish to heal?");
@@ -452,7 +448,7 @@ namespace HelloWorld
             }
         }
         
-        public void Save()
+        public void Save() // calls for player to save their important stats;
         {
             StreamWriter writer = new StreamWriter("SaveData.txt");
             _player.Save(writer);
@@ -460,7 +456,7 @@ namespace HelloWorld
             Console.WriteLine("Saved, press any key to continue");
             Console.ReadKey();
         }
-        public void Load()
+        public void Load()//loads players important stats
         {
             StreamReader reader = new StreamReader("SaveData.txt");
             _player.Load(reader);
@@ -485,7 +481,7 @@ namespace HelloWorld
             }
             return input;
         }
-        private void InitInventory(Player player)
+        private void InitInventory(Player player) // Sets all items in players inventory as Empty Slot
         {
             player.InitInventory();
         }
@@ -508,8 +504,7 @@ namespace HelloWorld
             }
             return input;
         }
-        //This is used to get a simple 1 or 2 char from a 2 answer question
-        private char GetInput(string option1, string option2, string query)
+        private char GetInput(string option1, string option2, string query) //This is used to get a simple 1 or 2 char from a 2 answer question
         {
             Console.WriteLine(query);
             Console.WriteLine("1. " + option1);

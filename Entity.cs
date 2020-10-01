@@ -58,14 +58,6 @@ namespace HelloWorld
         {
             return _level;
         }
-
-        public float GainExperience(Entity enemy)
-        {
-            float experiencegained = 25 * enemy._level;
-            _experience += experiencegained;
-            return experiencegained;
-        }
-
         public float GetBaseDamage()
         {
             return _baseDamage;
@@ -96,7 +88,7 @@ namespace HelloWorld
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
-        public void BlindAttack(Entity agressor, Entity target)
+        public void BlindAttack(Entity agressor, Entity target) //50% chance to hit target for 50% more damage;
         {
             float HitChance = GenerateNumber(1, 10);
             if (HitChance >= 5)
@@ -121,20 +113,12 @@ namespace HelloWorld
                 inventory[i] = _EmptySlot;
             }
         }
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage) // allows for entities to decrement their own health
         {
             _health -= damage;
             if (_health < 0)
             {
                 _health = 0;
-            }
-        }
-        public void LevelUP()
-        {
-            for (float i = _experience; i >= 100; i -= 100)
-            {
-                _level += 1;
-                _experience -= 100;
             }
         }
     }
