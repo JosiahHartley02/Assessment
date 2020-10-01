@@ -33,6 +33,7 @@ namespace HelloWorld
         public void Start()
         {
             InitStore();
+            InitInventory(_player);
             ControlIntro();
             MainMenu();
             if (_useOldSave == false)
@@ -99,6 +100,7 @@ namespace HelloWorld
                         Console.WriteLine("Error please select a valid input");
                         break;
                 }
+                _player.InitInventory();
             }
             Console.Clear();
         }
@@ -192,6 +194,7 @@ namespace HelloWorld
             //test for both players being alive
             while (player.GetHealth() > 0 && enemy.GetHealth() > 0)
             {
+                enemy.InitInventory();
                 Console.Clear();
                 player.PrintStats();
                 Console.WriteLine();
@@ -288,6 +291,7 @@ namespace HelloWorld
         {
             int number = GenerateNumber(1, 3, true);
             WildLife animal = new WildLife(number);
+            animal.InitInventory();
             Console.WriteLine(player.GetName() + " has stumbled upon a " + animal.GetName());
             while (player.GetHealth() > 0 && animal.GetHealth() > 0)
             {
@@ -480,6 +484,10 @@ namespace HelloWorld
                 }
             }
             return input;
+        }
+        private void InitInventory(Player player)
+        {
+            player.InitInventory();
         }
         private char GetInput(Items option1, Items option2, Items option3, string option4, string query) //gets either 1 2 3 or 4 as a char input and prints a query
         {

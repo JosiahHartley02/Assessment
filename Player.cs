@@ -8,7 +8,6 @@ namespace HelloWorld
     class Player : Entity
     {
         private int _gold;
-        public Items _EmptySlot = new Items(true);
         //base constructor
         public Player()
         {
@@ -63,14 +62,7 @@ namespace HelloWorld
                     break;
             }
             _gold = 0;
-            InitInventory(); // sets every slot in inventory array to Item Empty slot as a place holder.
-        }
-        private void InitInventory()//allows me to not get a null error
-        {
-            for (int i = 0; i < inventory.Length; i++) // for however many positions in an array, declares item "EmptySlot" in said position
-            {
-                inventory[i] = _EmptySlot;
-            }
+            InitInventory();
         }
         private void PrintInventory() // prints item names at each position in the inventory aray
         {
@@ -130,13 +122,14 @@ namespace HelloWorld
         }
         public void PrintStats() //Prints players stats
         {
+            float outputDamage = _baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost();
             Console.WriteLine(_name + "'s stats:");
             Console.WriteLine(_health + " health remaining");
             if (_hasMana == true)
             {
                 Console.WriteLine(_mana + " mana remaining");
             }
-            Console.WriteLine("Total output damage " + _baseDamage);
+            Console.WriteLine("Total output damage " + outputDamage);
             Console.WriteLine("Level " + _level);
             Console.WriteLine(_experience + "/100 experience");
             Console.WriteLine(_gold + " total gold");

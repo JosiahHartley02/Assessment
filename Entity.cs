@@ -17,6 +17,7 @@ namespace HelloWorld
         protected int _mana;
         protected bool _hasMana;
         protected Items[] inventory = new Items[3];
+        public Items _EmptySlot = new Items(true);
         //template constructor
         public Entity()
         {
@@ -82,12 +83,12 @@ namespace HelloWorld
         {
             return _mana;
         }
-        //prints an entities stats
         
         //allows entity to attack an enemy by calling targets take damage function
         public void Attack(Entity agressor, Entity target)
         {
-            float damage = agressor._baseDamage += agressor.inventory[0].GetDamageBoost();
+            float damage = agressor._baseDamage;
+            damage += agressor.inventory[0].GetDamageBoost();
             damage += agressor.inventory[1].GetDamageBoost();
             damage += agressor.inventory[2].GetDamageBoost();
             target.TakeDamage(damage);
@@ -101,7 +102,7 @@ namespace HelloWorld
             if (HitChance >= 5)
             {
                 //50% chance of hitting for 50% more damage
-                float damage = agressor._baseDamage * .5f + _baseDamage;
+                float damage =( _baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost()) * .5f + _baseDamage;
                 target.TakeDamage(damage);
                 Console.WriteLine(agressor._name + " hit " + target._name + " for " + damage + " damage!");
                 Console.WriteLine("Press any key to continue");
@@ -111,6 +112,13 @@ namespace HelloWorld
             {
                 Console.WriteLine(agressor._name + " missed!\nPress any key to continue");
                 Console.ReadKey();
+            }
+        }
+        public void InitInventory()//allows me to not get a null error
+        {
+            for (int i = 0; i < inventory.Length; i++) // for however many positions in an array, declares item "EmptySlot" in said position
+            {
+                inventory[i] = _EmptySlot;
             }
         }
         public void TakeDamage(float damage)
