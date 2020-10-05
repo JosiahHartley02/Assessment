@@ -21,10 +21,10 @@
 
 
 2. Input Information
-- Num Char 1 - Selects option 1
-- Num Char 2 - Selects option 2
-- Num Char 3 - Selects option 3
-- Num Char 4 - Selects option 4
+- Num Char '1' - Selects option 1
+- Num Char '2' - Selects option 2
+- Num Char '3' - Selects option 3
+- Num Char '4' - Selects option 4
 - AnyKey     - Continues from a pause in code
 
 
@@ -180,9 +180,6 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
        Name: _hasmana
              Description: tests if entity has mana
               Type: bool  
-       Name: inventory
-             Description: holds entities Items.cs
-              Type: Class Items.cs array 
       Name: _EmptySlot
              Description: Placeholder value for entity's inventory
               Type:Class Item.cs 
@@ -213,14 +210,11 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
           Name: GetMana()
              Description: Retuns entity's mana value
               Type:int
-          Name: Attack(Entity agressor, Entity target)
-             Description: Takes in an agressor and a target and subtracts targets health by agressors output damage
+          Name: Attack(Entity target)
+             Description: Calls for the target to subtract their health by the aggressors damage
               Type:void
-          Name: BlindAttack(Entity agressor, Entity target)
-             Description: Takes in an agressor and a target, generates a random hitchance number and subtracts targets health by agressors output damage +50%
-              Type:void
-          Name: InitInventory()
-             Description: sets each inventory slot in entity's inventory to an Empty Slot
+          Name: BlindAttack(Entity target)
+             Description: Takes in a target, generates a random hitchance number and subtracts targets health by agressors output damage +50%
               Type:void
           Name: TakeDamage(float damage)
              Description: Decrements entity's health by a desired damage value
@@ -346,12 +340,18 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: _gold
              Description: holds players gold
              Type: int
+        Name: inventory
+             Description: keeps track of items in a 3 position array
+             Type: Clas Items Array
         Name: Player()
              Description: base constructor
              Type: constructor
         Name: Player(int choiceVal)
              Description: Constructor used to choose character
              Type: constructor
+        Name: InitInventory
+             Description: Sets every single position in the players inventory array to an emptySlot item,
+             Type: void
         Name: PrintInventory()
              Description: Prints players inventory one line per array position
              Type: void
@@ -370,6 +370,12 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
           Name:  EquipItem(Items itemname)
              Description: /Allows player to put an item in a specific slot, then updates max health in case an item was removed or added
              Type: void
+        Name: Attack
+             Description: Takes in players base damage and adds all items damage value to create an output damaeg
+             Type: overriden void
+        Name: BlindAttack
+             Description: Takes in players base damage plus damagevalue of all items, multiplies that by half and adds the total damage of all the damages and items again
+             Type: overriden void
           Name:  PrintStats()
              Description: Prints players stats
              Type: void
