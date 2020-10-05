@@ -10,6 +10,7 @@ namespace HelloWorld
 
         protected float _maxHealth;
         private int _gold;
+        protected Items[] inventory = new Items[3];
         public Player() //base constructor
         {
             _name = "UnNammed";
@@ -61,6 +62,13 @@ namespace HelloWorld
             _gold = 0;
             _maxHealth = _health;
             InitInventory();
+        }
+        public void InitInventory()//allows me to not get a null error
+        {
+            for (int i = 0; i < inventory.Length; i++) // for however many positions in an array, declares item "EmptySlot" in said position
+            {
+                inventory[i] = _EmptySlot;
+            }
         }
         private void PrintInventory() // prints item names at each position in the inventory aray
         {
@@ -135,19 +143,56 @@ namespace HelloWorld
             Console.WriteLine("press any key to continue");
             Console.ReadKey();
         }
+        public override void Attack(Entity target)
+        {
+            float damage = GetBaseDamage();
+            damage +=inventory[0].GetDamageBoost();
+            damage += inventory[1].GetDamageBoost();
+            damage += inventory[2].GetDamageBoost();
+            target.TakeDamage(damage);
+            Console.WriteLine(_name + " hit " + target.GetName() + " for " + damage + " damage!");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+        }
+        public override void BlindAttack(Entity target) //50% chance to hit target for 50% more damage;
+        {
+            float HitChance = GenerateNumber(1, 10);
+            if (HitChance >= 5)
+            {
+                //50% chance of hitting for 50% more damage
+                float damage = (_baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost()) * .5f + _baseDamage;
+                target.TakeDamage(damage);
+                Console.WriteLine(_name + " hit " + target.GetName() + " for " + damage + " damage!");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine(_name + " missed!\nPress any key to continue");
+                Console.ReadKey();
+            }
+        }
         public void PrintStats() //Prints players stats
         {
             float outputDamage = _baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine(_name + "'s stats:");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(_health + "/" + _maxHealth + " health remaining");
             if (_hasMana == true)
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine(_mana + " mana remaining");
             }
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Total output damage " + outputDamage);
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("Level " + _level);
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine(_experience + "/100 experience");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(_gold + " total gold");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         private char GetInput(string option1, string option2, string option3, string option4, string query) // prints a message, takes in 3 choices, and returns the choice as a char
         {

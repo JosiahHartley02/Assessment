@@ -16,7 +16,6 @@ namespace HelloWorld
         protected float _experience;
         protected int _mana;
         protected bool _hasMana;
-        protected Items[] inventory = new Items[3];
         public Items _EmptySlot = new Items(true);
         //template constructor
         public Entity()
@@ -77,40 +76,29 @@ namespace HelloWorld
         }
         
         //allows entity to attack an enemy by calling targets take damage function
-        public void Attack(Entity agressor, Entity target)
+        public virtual void Attack(Entity target)
         {
-            float damage = agressor._baseDamage;
-            damage += agressor.inventory[0].GetDamageBoost();
-            damage += agressor.inventory[1].GetDamageBoost();
-            damage += agressor.inventory[2].GetDamageBoost();
-            target.TakeDamage(damage);
-            Console.WriteLine(agressor._name + " hit " + target._name + " for " + damage + " damage!");
+            target.TakeDamage(_baseDamage);
+            Console.WriteLine(_name + " hit " + target._name + " for " + _baseDamage + " damage!");
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
-        public void BlindAttack(Entity agressor, Entity target) //50% chance to hit target for 50% more damage;
+        public virtual void BlindAttack(Entity target) //50% chance to hit target for 50% more damage;
         {
             float HitChance = GenerateNumber(1, 10);
             if (HitChance >= 5)
             {
                 //50% chance of hitting for 50% more damage
-                float damage =( _baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost()) * .5f + _baseDamage;
+                float damage =( _baseDamage) * .5f + _baseDamage;
                 target.TakeDamage(damage);
-                Console.WriteLine(agressor._name + " hit " + target._name + " for " + damage + " damage!");
+                Console.WriteLine(_name + " hit " + target._name + " for " + damage + " damage!");
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
             }
             else
             {
-                Console.WriteLine(agressor._name + " missed!\nPress any key to continue");
+                Console.WriteLine(_name + " missed!\nPress any key to continue");
                 Console.ReadKey();
-            }
-        }
-        public void InitInventory()//allows me to not get a null error
-        {
-            for (int i = 0; i < inventory.Length; i++) // for however many positions in an array, declares item "EmptySlot" in said position
-            {
-                inventory[i] = _EmptySlot;
             }
         }
         public void TakeDamage(float damage) // allows for entities to decrement their own health

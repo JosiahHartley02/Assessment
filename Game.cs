@@ -151,21 +151,42 @@ namespace HelloWorld
             char input = ' ';
             while (input != '1' && input != '2')
             {
+                bool saveExists = false;
                 Console.WriteLine("1. New Game");
-                Console.WriteLine("2. Load Game");
-                input = Console.ReadKey().KeyChar;
-                if (input == '1')
+                if(File.Exists("SaveData.txt") == true) // tests to see if there is in fact a saved game file
                 {
-                    _useOldSave = false;
+                    Console.WriteLine("2. Load Game");   // Visualizes option to select load game if above statement true
+                    saveExists = true;                  
                 }
-                else if (input == '2')
+                if (saveExists == true)
                 {
-                    _useOldSave = true;
+                    input = Console.ReadKey().KeyChar;
+                    if (input == '1')
+                    {
+                        _useOldSave = false;
+                    }
+                    else if (input == '2')
+                    {
+                        _useOldSave = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error Invalid Option");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Error Invalid Option");
+                    input = Console.ReadKey().KeyChar;
+                    if (input == '1')
+                    {
+                        _useOldSave = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error Invalid Option");
+                    }
                 }
+                
             }
         }
         private void ControlIntro()//should help clear up any actual question
@@ -193,7 +214,6 @@ namespace HelloWorld
             //test for both players being alive
             while (player.GetHealth() > 0 && enemy.GetHealth() > 0)
             {
-                enemy.InitInventory();
                 Console.Clear();
                 player.PrintStats();
                 Console.WriteLine();
@@ -203,11 +223,11 @@ namespace HelloWorld
                     char input = GetInput("Attack soft yet sure", "Attack hard yet blind", "What move will you choose?");
                     if (input == '1')
                     {
-                        player.Attack(player, enemy);
+                        player.Attack(enemy);
                     }
                     else if (input == '2')
                     {
-                        player.BlindAttack(player, enemy);
+                        player.BlindAttack(enemy);
                     }
                 }
                 if (enemy.GetHealth() > 0)//makes sure enemy is alive before attacking
@@ -215,7 +235,7 @@ namespace HelloWorld
                     float EnemyChoice = GenerateNumber(1, 10);//adds randomized attacks
                     if (EnemyChoice >= 6)
                     {
-                        enemy.Attack(enemy, player);
+                        enemy.Attack(player);
                     }
                     else if (EnemyChoice == 5) //Just a good RNG possibility
                     {
@@ -224,7 +244,7 @@ namespace HelloWorld
                     }
                     else
                     {
-                        enemy.BlindAttack(enemy, player);
+                        enemy.BlindAttack(player);
                     }
                 }
             }
@@ -286,7 +306,6 @@ namespace HelloWorld
         {
             int number = GenerateNumber(1, 3, true);
             WildLife animal = new WildLife(number);
-            animal.InitInventory();
             Console.WriteLine(player.GetName() + " has stumbled upon a " + animal.GetName());
             while (player.GetHealth() > 0 && animal.GetHealth() > 0)
             {
@@ -295,11 +314,11 @@ namespace HelloWorld
                     char input = GetInput("Attack soft", "Attack Hard", "What does " + player.GetName() + " do?");
                     if (input == '1')
                     {
-                        player.Attack(player, animal);
+                        player.Attack(animal);
                     }
                     else
                     {
-                        player.BlindAttack(player, animal);
+                        player.BlindAttack(animal);
                     }
                 }
                 if (animal.GetHealth() > 0)
@@ -307,11 +326,11 @@ namespace HelloWorld
                     float hitchoice = GenerateNumber(1, 10);
                     if (hitchoice >= 5)
                     {
-                        animal.Attack(animal, player);
+                        animal.Attack(player);
                     }
                     else
                     {
-                        animal.Attack(animal, player);
+                        animal.Attack(player);
                     }
                 }
             }
