@@ -172,7 +172,7 @@ namespace HelloWorld
                 Console.ReadKey();
             }
         }
-        public void PrintStats() //Prints players stats
+        public override void PrintStats() //Prints players stats
         {
             float outputDamage = _baseDamage + inventory[1].GetDamageBoost() + inventory[2].GetDamageBoost() + inventory[0].GetDamageBoost();
             Console.ForegroundColor = ConsoleColor.DarkGreen;

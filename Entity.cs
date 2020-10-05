@@ -109,5 +109,18 @@ namespace HelloWorld
                 _health = 0;
             }
         }
+        public virtual void PrintStats()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(_name);
+            Console.WriteLine(_health + " health remaining");
+            if (_hasMana == true)
+            {
+                Console.WriteLine(_mana + " mana remaining");
+            }
+            Console.WriteLine("Total output damage " + _baseDamage);
+            Console.WriteLine("Level " + _level);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

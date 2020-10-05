@@ -24,17 +24,5 @@ namespace HelloWorld
                 _baseDamage = 10;
             }
         }
-       
-        public void PrintStats()
-        {
-            Console.WriteLine(_name + "'s stats:");
-            Console.WriteLine(_health + " health remaining");
-            if (_hasMana == true)
-            {
-                Console.WriteLine(_mana + " mana remaining");
-            }
-            Console.WriteLine("Total output damage " + _baseDamage);
-            Console.WriteLine("Level " + _level);
-        }
     }
 }

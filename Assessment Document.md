@@ -153,6 +153,10 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: GetInput(string option1, string option2, string query)
              Description: takes in 3 strings for simple yes or no questions, returns the char
              Type: char 
+        Name: PrintStats
+             Description: prints entitys health damage and level
+             Type: virtual void PrintStats
+
 
 
 **File**: Entity.cs
@@ -230,9 +234,6 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: Enemy(string nameVal, int levelVal)
              Description: Takes in string name val and int level val to create a base enemy
              Type: constructor
-          Name: PrintStats()
-             Description: Displays Enemys Current Stats used for battle loop
-             Type: void
 
 **File**: Item.cs
 
@@ -377,7 +378,7 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
              Description: Takes in players base damage plus damagevalue of all items, multiplies that by half and adds the total damage of all the damages and items again
              Type: overriden void
           Name:  PrintStats()
-             Description: Prints players stats
+             Description: Prints entity stats plust mana and experience and toatl gold in different colors
              Type: void
           Name:  GetInput((string option1, string option2, string option3, string option4, string query))
              Description: prints a message, takes in 3 choices, and returns the choice as a char
