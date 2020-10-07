@@ -499,7 +499,7 @@ namespace HelloWorld
                                 itemintSlot = 2;
                                 break;
                         }
-                            _player.SellItem(_shop, _player, itemintSlot);
+                            _player.SellItem(_shop, itemintSlot);
                         break;
 
                 }
