@@ -104,7 +104,7 @@ namespace HelloWorld
             {
                 Console.WriteLine("It appears that " + _name + " doesn't have enough gold for this");
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(true);
+                Console.ReadKey(false);
             }
         }
         public void SellItem(Shop shopname, int arrayPosition) // takes in shop object and position of the array the player wants to sell
@@ -134,14 +134,14 @@ namespace HelloWorld
                 case '4':
                     Console.Clear();
                     Console.WriteLine("Process canceled\nPress any key to continue");
-                    Console.ReadKey(true);
+                    Console.ReadKey(false);
                     break;
             }
             Console.Clear();
             PrintInventory();
             UpdateMaxHealth();
             Console.WriteLine("press any key to continue");
-            Console.ReadKey(true);
+            Console.ReadKey(false);
         }
         public override void Attack(Entity target)
         {
@@ -152,7 +152,7 @@ namespace HelloWorld
             target.TakeDamage(damage);
             Console.WriteLine(_name + " hit " + target.GetName() + " for " + damage + " damage!");
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey(true);
+            Console.ReadKey(false);
         }
         public override void BlindAttack(Entity target) //50% chance to hit target for 50% more damage;
         {
@@ -164,12 +164,12 @@ namespace HelloWorld
                 target.TakeDamage(damage);
                 Console.WriteLine(_name + " hit " + target.GetName() + " for " + damage + " damage!");
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(true);
+                Console.ReadKey(false);
             }
             else
             {
                 Console.WriteLine(_name + " missed!\nPress any key to continue");
-                Console.ReadKey(true);
+                Console.ReadKey(false);
             }
         }
         public override void PrintStats() //Prints players stats
@@ -204,7 +204,7 @@ namespace HelloWorld
             char input = ' ';
             while (input != '1' && input != '2' && input != '3' && input != '4') //repeat the question while the input is not something useable 
             {
-                input = Console.ReadKey(true).KeyChar;
+                input = Console.ReadKey(false).KeyChar;
                 if (input != '1' && input != '2' && input != '3' && input != '4')
                 {
                     Console.WriteLine("Invalid input");
@@ -225,7 +225,15 @@ namespace HelloWorld
             }
             Console.WriteLine("You just healed for a total of " + _health + "/" + _maxHealth + " total health!");
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey(true);
+            Console.ReadKey(false);
+        }
+        public void ManaFromRest()
+        {
+            _mana += 5;
+            if (_mana > _maxMana)
+            {
+                _mana = _maxMana;
+            }
         }
         public void UpdateMaxHealth() // updates max health to the the base health plus all items healthboost;
         {

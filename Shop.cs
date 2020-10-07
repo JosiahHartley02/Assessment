@@ -58,7 +58,7 @@ namespace HelloWorld
             {
                 Console.WriteLine("Sorry but I simply can not afford it!");
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(true);
+                Console.ReadKey(false);
                 return false;
             }
         }

@@ -90,6 +90,12 @@ namespace HelloWorld
         {
             return _polynumber;
         }
+        public bool HasMana()
+        {
+            if (_hasMana == true)
+            { return true; }
+            else { return false; }
+        }
         public void SetPolyNumber(int polynumber)
         {
             _polynumber = polynumber;
@@ -128,7 +134,7 @@ namespace HelloWorld
             target.TakeDamage(_baseDamage);
             Console.WriteLine(_name + " hit " + target._name + " for " + _baseDamage + " damage!");
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey(true);
+            Console.ReadKey(false);
         }
         public virtual void BlindAttack(Entity target) //50% chance to hit target for 50% more damage;
         {
@@ -140,12 +146,12 @@ namespace HelloWorld
                 target.TakeDamage(damage);
                 Console.WriteLine(_name + " hit " + target._name + " for " + damage + " damage!");
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(true);
+                Console.ReadKey(false);
             }
             else
             {
                 Console.WriteLine(_name + " missed!\nPress any key to continue");
-                Console.ReadKey(true);
+                Console.ReadKey(false);
             }
         }
         public void TakeDamage(float damage) // allows for entities to decrement their own health
