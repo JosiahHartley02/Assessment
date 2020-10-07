@@ -210,7 +210,8 @@ namespace HelloWorld
         }
         private void BattleLoop(Player player) //player fights against a zombie
         {
-            Enemy enemy = new Enemy("Zombie", 1);
+            int enemynumber = GenerateNumber(1, 4, true);
+            Enemy enemy = new Enemy(enemynumber);
             //test for both players being alive
             while (player.GetHealth() > 0 && enemy.GetHealth() > 0)
             {

@@ -46,7 +46,12 @@ namespace HelloWorld
             return number;
         }
         //Set allows me to change values from 
-
+        public int GenerateNumber(int min, int max, bool isInt)
+        {
+            Random r = new Random();
+            int number = r.Next(min, max);
+            return number;
+        }
         //The following allow me to Get information from the protected variables declared above
         public string GetName()
         {
@@ -65,7 +70,7 @@ namespace HelloWorld
         {
             return _experience;
         }
-               
+
         public float GetHealth()
         {
             return _health;
@@ -74,7 +79,7 @@ namespace HelloWorld
         {
             return _mana;
         }
-        
+
         //allows entity to attack an enemy by calling targets take damage function
         public virtual void Attack(Entity target)
         {
@@ -89,7 +94,7 @@ namespace HelloWorld
             if (HitChance >= 5)
             {
                 //50% chance of hitting for 50% more damage
-                float damage =( _baseDamage) * .5f + _baseDamage;
+                float damage = (_baseDamage) * .5f + _baseDamage;
                 target.TakeDamage(damage);
                 Console.WriteLine(_name + " hit " + target._name + " for " + damage + " damage!");
                 Console.WriteLine("Press any key to continue");
@@ -121,6 +126,83 @@ namespace HelloWorld
             Console.WriteLine("Total output damage " + _baseDamage);
             Console.WriteLine("Level " + _level);
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public void ManaAttack(Entity target)
+        {
+            if (_hasMana == true)
+            {
+                int manaAttackChoice = GenerateNumber(0, 3, true);
+                switch (manaAttackChoice)
+                {
+                    case 0:
+                        {
+                            float hitChance = GenerateNumber(1, 10);
+                            Console.Write(_name + " casts ");
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("!");
+                            if (hitChance > 5)
+                            {
+                                Console.WriteLine(_name + "'s ");
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.Write("FIREBALL");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write(" fizzles out pathetically");
+                            }
+                            else
+                            {
+                                if (_mana >= 5)
+                                {
+                                    float damage = _level * _baseDamage;
+                                    Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine(_name + " does not have enough mana to attack!");
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        {
+                            float hitChance = GenerateNumber(1, 10);
+                            Console.Write(_name + " casts ");
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("!");
+                            break;
+                        }
+                    case 2:
+                        {
+                            float hitChance = GenerateNumber(1, 10);
+                            Console.Write(_name + " casts ");
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("!");
+                            break;
+                        }
+                    case 3:
+                        {
+                            float hitChance = GenerateNumber(1, 10);
+                            Console.Write(_name + " casts ");
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("!");
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(_name + " does not possess magical abilities!");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
     }
 }
