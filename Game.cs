@@ -464,6 +464,7 @@ namespace HelloWorld
                 Console.Clear();
                 _player.PrintStats();
                 char input = GetInput(_shop.GetItem(0), _shop.GetItem(1), _shop.GetItem(2), "Leave", "sell", "What do ya need little one?");
+                int itemintSlot = 0;
                 switch (input)
                 {
                     case '1':
@@ -482,7 +483,23 @@ namespace HelloWorld
                         break;
                     case '5':
                         char itemSlot = GetInput(_player, "cancel", "Please press the number that corresponds with the item you wish to sell");
-                        _player.SellItem(_shop, itemSlot);
+                        if (itemSlot == 4)
+                        {
+                            break;
+                        }
+                        switch(itemSlot)
+                        {
+                            case '1': 
+                                itemintSlot = 0;
+                                break;
+                            case '2':
+                                itemintSlot = 1;
+                                break;
+                            case '3':
+                                itemintSlot = 2;
+                                break;
+                        }
+                            _player.SellItem(_shop, _player, itemintSlot);
                         break;
 
                 }
@@ -570,10 +587,10 @@ namespace HelloWorld
             Console.WriteLine("3. " + option3.GetName() + " costs " + option3.GetValue());
             Console.WriteLine("4. " + option4);
             Console.WriteLine("5. " + option5);
-            while (input != '1' && input != '2' && input != '3' && input != '4')
+            while (input != '1' && input != '2' && input != '3' && input != '4' && input != '5')
             {
                 input = Console.ReadKey(true).KeyChar;
-                if (input != '1' && input != '2' && input != '3' && input != '4')
+                if (input != '1' && input != '2' && input != '3' && input != '4' && input !='5')
                 {
                     Console.WriteLine("Please select a valid option");
                 }

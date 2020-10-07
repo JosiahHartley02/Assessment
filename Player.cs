@@ -112,7 +112,7 @@ namespace HelloWorld
                 Console.ReadKey(false);
             }
         }
-        public void SellItem(Shop shopname, int arrayPosition) // takes in shop object and position of the array the player wants to sell
+        public void SellItem(Shop shopname, Player player, int arrayPosition) // takes in shop object and position of the array the player wants to sell
         {
             if (shopname.BuyItem(inventory[arrayPosition]) == true) //calls for the shop to attempt to buy the item from the player, if it can 
             {
