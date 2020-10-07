@@ -17,8 +17,6 @@ namespace HelloWorld
         protected int _mana;
         protected int _maxMana;
         protected bool _hasMana;
-        protected bool _isPolymorphed;
-        protected int _polynumber;
 
         public Items _EmptySlot = new Items(true);
         //template constructor
@@ -82,33 +80,15 @@ namespace HelloWorld
         {
             return _mana;
         }
-        public bool isPolymorphed()
-        {
-            return _isPolymorphed;
-        }
-        public int GetPolyNumber()
-        {
-            return _polynumber;
-        }
         public bool HasMana()
         {
             if (_hasMana == true)
             { return true; }
             else { return false; }
         }
-        public void SetPolyNumber(int polynumber)
-        {
-            _polynumber = polynumber;
-        }
 
-        public void Polymorph(Entity target)
-        {
-            target._isPolymorphed = true;
-        }
-        
         public void Polymorph(int animalnumber)
         {
-            _level = 1;
             _baseDamage = 2;
             _hasMana = false;
             switch (animalnumber)
@@ -177,7 +157,7 @@ namespace HelloWorld
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public virtual void ManaAttack(Entity target)
+        public virtual void ManaAttack(Entity target) // for magical entites to attack
         {
             if (_hasMana == true)
             {

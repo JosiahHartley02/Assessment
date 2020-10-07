@@ -230,13 +230,11 @@ namespace HelloWorld
                         {
                             if (_mana >= 25)
                             {
-                                Polymorph(target);
                                 int animalChoice = GenerateNumber(1, 3, true);
                                 string previousName = target.GetName();
                                 if (animalChoice == 1) { target.Polymorph(1); }
                                 else if (animalChoice == 2) { target.Polymorph(2); }
                                 else { target.Polymorph(3); }
-                                target.SetPolyNumber(animalChoice);
                                 Console.WriteLine(previousName + " was turned into a " + target.GetName());
                                 _mana -= 25;
                             }

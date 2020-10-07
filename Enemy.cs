@@ -6,10 +6,9 @@ namespace HelloWorld
 {
     class Enemy:Entity
     {
-        private bool _isReborn;
+
         public Enemy(int numberVal)//base constructor for average enemy
         {
-            _isReborn = false;
             switch(numberVal)
             {
                 case 1:
@@ -41,10 +40,9 @@ namespace HelloWorld
             }
             if (_health == 0)//if health ends up being 0 the entity is reborn stronger as an easter egg thing
             {
-                _health += 30;
+                _health += 60;
                 _name = "VengeFul " + _name;
-                _baseDamage += 6;
-                _isReborn = true;
+                _baseDamage += 7;
             }
         }
     }

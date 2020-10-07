@@ -292,25 +292,33 @@ namespace HelloWorld
                 {
                     case 1:
                     case 2://case 1 and 2 will yeild nothing found
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("Unfortunately " + enemy.GetName() + " dropped nothing!");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Press any key to continue");
                         Console.ReadLine();
                         break;
                     case 3://case 3 will drop a "junk"
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("The foe dropped a " + _junk.GetName());
                         Console.WriteLine("Press any key to continue");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.ReadLine();
                         _player.EquipItem(_junk);
                         break;
                     case 4: //case 4 will drop damage increase necklace
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("The foe dropped a " + _damageNecklace.GetName());
                         Console.WriteLine("Press any key to continue");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.ReadLine();
                         _player.EquipItem(_damageNecklace);
                         break;
                     case 5: //case 5 will drop health increase necklace
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("The foe dropped a" + healthnecklace.GetName());
                         Console.WriteLine("Press any key to continue");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.ReadLine();
                         _player.EquipItem(healthnecklace);
                         break;
@@ -441,7 +449,7 @@ namespace HelloWorld
                         break;
                     case '3':
                         float enemychance = GenerateNumber(1, 10);
-                        if (enemychance >= 5)
+                        if (enemychance >= 8)
                         {
                             HuntAnimal(_player);
                         }
