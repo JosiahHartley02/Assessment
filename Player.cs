@@ -341,5 +341,9 @@ namespace HelloWorld
             inventory[2] = new Items(item3name, item3health, item3damage, item3Value);
             return true;
         }
+        public override void ManaAttack(Entity target)
+        {
+
+        }
     }
 }

@@ -128,7 +128,7 @@ namespace HelloWorld
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void ManaAttack(Entity target)
+        public virtual void ManaAttack(Entity target)
         {
             if (_hasMana == true)
             {
@@ -142,10 +142,10 @@ namespace HelloWorld
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.Write("FIREBALL");
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("!");
+                            Console.WriteLine("!");
                             if (hitChance > 5)
                             {
-                                Console.WriteLine(_name + "'s ");
+                                Console.Write(_name + "'s ");
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.Write("FIREBALL");
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -157,10 +157,15 @@ namespace HelloWorld
                                 {
                                     float damage = _level * _baseDamage;
                                     Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
+                                    target.TakeDamage(damage);
                                 }
                                 else
                                 {
-                                    Console.WriteLine(_name + " does not have enough mana to attack!");
+                                    Console.Write(_name + " does not have enough mana for ");
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    Console.Write("FIREBALL");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine("!");
                                 }
                             }
                         }
@@ -169,30 +174,105 @@ namespace HelloWorld
                         {
                             float hitChance = GenerateNumber(1, 10);
                             Console.Write(_name + " casts ");
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write("LIGHTNING BOLT");
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("!");
+                            Console.WriteLine("!");
+                            if (hitChance > 5)
+                            {
+                                Console.Write(_name + "'s ");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("LIGHTNING BOLT");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write(" fizzles out pathetically");
+                            }
+                            else
+                            {
+                                if (_mana >= 5)
+                                {
+                                    float damage = _level * _baseDamage + 3;
+                                    Console.WriteLine(_name + " hit " + target.GetName() + " with a magical " + " for " + damage + "!");
+                                    target.TakeDamage(damage);
+                                }
+                                else
+                                {
+                                    Console.Write(_name + " does not have enough mana for ");
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.Write("LIGHTNING BOLT");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine("!");
+                                }
+                            }
                             break;
                         }
                     case 2:
                         {
                             float hitChance = GenerateNumber(1, 10);
                             Console.Write(_name + " casts ");
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            Console.Write("SEND TO BRAZIL");
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("!");
+                            Console.WriteLine("!");
+                            if (hitChance > 5)
+                            {
+                                Console.Write(_name + "'s ");
+                                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                                Console.Write("SEND TO BRAZIL");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write(" fizzles out pathetically");
+                            }
+                            else
+                            {
+                                if (_mana >= 15)
+                                {
+                                    float damage = _level * _baseDamage + 20;
+                                    Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
+                                    target.TakeDamage(damage);
+                                }
+                                else
+                                {
+                                    Console.Write(_name + " does not have enough mana for ");
+                                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                                    Console.Write("SEND TO BRAZIL");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine("!");
+                                }
+                            }
                             break;
                         }
                     case 3:
                         {
                             float hitChance = GenerateNumber(1, 10);
                             Console.Write(_name + " casts ");
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("FIREBALL");
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.Write("METEOR SHOWER");
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("!");
+                            Console.WriteLine("!");
+                            if (hitChance > 5)
+                            {
+                                Console.Write(_name + "'s ");
+                                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                                Console.Write("METEOR SHOWER");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write(" fizzles out pathetically");
+                            }
+                            else
+                            {
+                                if (_mana >= 10)
+                                {
+                                    float damage = _level * _baseDamage + 10;
+                                    Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
+                                    target.TakeDamage(damage);
+                                }
+                                else
+                                {
+                                    Console.Write(_name + " does not have enough mana for ");
+                                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                                    Console.Write("METEOR SHOWER");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine("!");
+                                }
+                            }
                             break;
                         }
                 }
