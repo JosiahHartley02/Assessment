@@ -15,7 +15,11 @@ namespace HelloWorld
         protected int _level;
         protected float _experience;
         protected int _mana;
+        protected int _maxMana;
         protected bool _hasMana;
+        protected bool _isPolymorphed;
+        protected int _polynumber;
+
         public Items _EmptySlot = new Items(true);
         //template constructor
         public Entity()
@@ -27,7 +31,6 @@ namespace HelloWorld
             _experience = 0;
             _hasMana = false;
         }
-        //base constructor entended for important enemy
         Entity(string nameVal, float healthVal, float damageVal, int levelVal)
         {
             _name = nameVal;
@@ -79,6 +82,45 @@ namespace HelloWorld
         {
             return _mana;
         }
+        public bool isPolymorphed()
+        {
+            return _isPolymorphed;
+        }
+        public int GetPolyNumber()
+        {
+            return _polynumber;
+        }
+        public void SetPolyNumber(int polynumber)
+        {
+            _polynumber = polynumber;
+        }
+
+        public void Polymorph(Entity target)
+        {
+            target._isPolymorphed = true;
+        }
+        public void Polymorph(int animalnumber)
+        {
+            _level = 5;
+            _baseDamage = 2;
+            _hasMana = false;
+            switch (animalnumber)
+            {
+                case 1:
+                    _name = "Chicken";
+                    _health = 10;
+                    break;
+                case 2:
+                    _name = "Deer";
+                    _health = 20;
+                    break;
+                case 3:
+                    _name = "Pig";
+                    _health = 15;
+                    break;
+            }
+
+        }
 
         //allows entity to attack an enemy by calling targets take damage function
         public virtual void Attack(Entity target)
@@ -86,7 +128,7 @@ namespace HelloWorld
             target.TakeDamage(_baseDamage);
             Console.WriteLine(_name + " hit " + target._name + " for " + _baseDamage + " damage!");
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
         public virtual void BlindAttack(Entity target) //50% chance to hit target for 50% more damage;
         {
@@ -98,12 +140,12 @@ namespace HelloWorld
                 target.TakeDamage(damage);
                 Console.WriteLine(_name + " hit " + target._name + " for " + damage + " damage!");
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
+                Console.ReadKey(true);
             }
             else
             {
                 Console.WriteLine(_name + " missed!\nPress any key to continue");
-                Console.ReadKey();
+                Console.ReadKey(true);
             }
         }
         public void TakeDamage(float damage) // allows for entities to decrement their own health
