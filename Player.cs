@@ -71,7 +71,11 @@ namespace HelloWorld
                 inventory[i] = _EmptySlot;
             }
         }
-        private void PrintInventory() // prints item names at each position in the inventory aray
+        public Items Inventory(int slot)
+        {
+            return inventory[slot];
+        }
+        public void PrintInventory() // prints item names at each position in the inventory aray
         {
             for (int i = 0; i < inventory.Length; i++)
             {

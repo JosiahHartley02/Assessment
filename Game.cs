@@ -76,7 +76,7 @@ namespace HelloWorld
             Console.Clear();
             Console.WriteLine("Please select a character from below!");
             Console.WriteLine("1. Mouse Man, thief of the night\n2. Merlin" +
-                " master of the arcane arts [coolest\strongest]\n3. WolfGang deaf musical bard\n.4 " +
+                " master of the arcane arts [coolest or strongest]\n3. WolfGang deaf musical bard\n.4 " +
                 "Professer Eisenburg raiser of the dead");
             char input = ' ';
             while (input != '1' && input != '2' && input != '3' && input != '4')
@@ -153,10 +153,10 @@ namespace HelloWorld
             {
                 bool saveExists = false;
                 Console.WriteLine("1. New Game");
-                if(File.Exists("SaveData.txt") == true) // tests to see if there is in fact a saved game file
+                if (File.Exists("SaveData.txt") == true) // tests to see if there is in fact a saved game file
                 {
                     Console.WriteLine("2. Load Game");   // Visualizes option to select load game if above statement true
-                    saveExists = true;                  
+                    saveExists = true;
                 }
                 if (saveExists == true)
                 {
@@ -186,7 +186,7 @@ namespace HelloWorld
                         Console.WriteLine("Error Invalid Option");
                     }
                 }
-                
+
             }
         }
         private void ControlIntro()//should help clear up any actual question
@@ -267,7 +267,7 @@ namespace HelloWorld
                     }
                     else
                     {
-                        if (EnemyChoice >=6)
+                        if (EnemyChoice >= 6)
                         {
                             enemy.ManaAttack(player);
                         }
@@ -306,7 +306,7 @@ namespace HelloWorld
                         Console.WriteLine("The foe dropped a " + _damageNecklace.GetName());
                         Console.WriteLine("Press any key to continue");
                         Console.ReadLine();
-                        _player.EquipItem(_damageNecklace);                        
+                        _player.EquipItem(_damageNecklace);
                         break;
                     case 5: //case 5 will drop health increase necklace
                         Console.WriteLine("The foe dropped a" + healthnecklace.GetName());
@@ -430,7 +430,7 @@ namespace HelloWorld
             while (_gameOver == false)
             {
                 Console.Clear();
-                char input = GetInput("Camp Shop", "Camp Rest Area", "Wilderness Scavenge", "Save" , "What will you do for now?");
+                char input = GetInput("Camp Shop", "Camp Rest Area", "Wilderness Scavenge", "Save", "What will you do for now?");
                 switch (input)
                 {
                     case '1':
@@ -463,7 +463,7 @@ namespace HelloWorld
             {
                 Console.Clear();
                 _player.PrintStats();
-                char input = GetInput(_shop.GetItem(0), _shop.GetItem(1), _shop.GetItem(2), "Leave", "What do ya need little one?");
+                char input = GetInput(_shop.GetItem(0), _shop.GetItem(1), _shop.GetItem(2), "Leave", "sell", "What do ya need little one?");
                 switch (input)
                 {
                     case '1':
@@ -480,6 +480,11 @@ namespace HelloWorld
                         leave = true;
                         Console.ReadKey(true);
                         break;
+                    case '5':
+                        char itemSlot = GetInput(_player, "cancel", "Please press the number that corresponds with the item you wish to sell");
+                        _player.SellItem(_shop, itemSlot);
+                        break;
+
                 }
             }
         }
@@ -497,7 +502,7 @@ namespace HelloWorld
                 Console.WriteLine("yea maybe another time");
             }
         }
-        
+
         public void Save() // calls for player to save their important stats;
         {
             StreamWriter writer = new StreamWriter("SaveData.txt");
@@ -512,6 +517,26 @@ namespace HelloWorld
             _player.Load(reader);
             reader.Close();
         }
+        private char GetInput(Player player, string option4, string query)
+        {
+            char input = ' ';
+            Console.WriteLine(query);
+
+            Console.WriteLine("1. " + player.Inventory(0).GetName());
+            Console.WriteLine("2. " + player.Inventory(1).GetName());
+            Console.WriteLine("3. " + player.Inventory(2).GetName());
+            Console.WriteLine("4. " + option4);
+            while (input != '1' && input != '2' && input != '3' && input != '4')
+            {
+                input = Console.ReadKey(true).KeyChar;
+                if (input != '1' && input != '2' && input != '3' && input != '4')
+                {
+                    Console.WriteLine("Please select a valid option");
+                }
+            }
+            return input;
+        }
+
         private char GetInput(string option1, string option2, string option3, string option4, string query) //gets either 1 2 3 or 4 as a char input and prints a query
         {
             char input = ' ';
@@ -535,7 +560,7 @@ namespace HelloWorld
         {
             player.InitInventory();
         }
-        private char GetInput(Items option1, Items option2, Items option3, string option4, string query) //gets either 1 2 3 or 4 as a char input and prints a query
+        private char GetInput(Items option1, Items option2, Items option3, string option4, string option5, string query) //gets either 1 2 3 or 4 as a char input and prints a query
         {
             char input = ' ';
             Console.WriteLine(query);
@@ -544,6 +569,7 @@ namespace HelloWorld
             Console.WriteLine("2. " + option2.GetName() + " costs " + option2.GetValue());
             Console.WriteLine("3. " + option3.GetName() + " costs " + option3.GetValue());
             Console.WriteLine("4. " + option4);
+            Console.WriteLine("5. " + option5);
             while (input != '1' && input != '2' && input != '3' && input != '4')
             {
                 input = Console.ReadKey(true).KeyChar;
