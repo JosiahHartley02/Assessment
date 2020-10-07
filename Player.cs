@@ -41,6 +41,7 @@ namespace HelloWorld
                     _level = 0;
                     _mana = 50;
                     _hasMana = true;
+                    _maxMana = 100;
                     break;
                 case 3:
                     _name = "WolfGang";
@@ -154,6 +155,96 @@ namespace HelloWorld
             Console.WriteLine("Press any key to continue");
             Console.ReadKey(false);
         }
+        public override void ManaAttack(Entity target)      //Tests for mana and may call an attack depending on luck and mana quantity
+        {
+            char attackChoice = GetInput("FireBall  5 mana", "LightningBolt  10 mana", "Bare Knuckles 0 mana", "Polymorph 25 mana", "Which spell would you like to cast");
+            float hitChance = GenerateNumber(1, 10);
+            switch (attackChoice)
+            {
+                case '1':
+                    {
+                        Console.WriteLine(_name + " casts a fireball!");
+                        if (hitChance > 7)
+                        {
+                            Console.WriteLine("The fireball fizzles out");
+                        }
+                        else
+                        {
+                            if (_mana >= 5)
+                            {
+                                float damage = _baseDamage + _baseDamage * (.05f * _level);
+                                target.TakeDamage(damage);
+                                Console.WriteLine(target.GetName() + " took " + damage + " from the fireball");
+                                _mana -= 5;
+
+                            }
+                            else
+                            {
+                                Console.WriteLine(_name + "'s fireball fizzled out before it was even conjured!");
+                            }
+                        }
+                        break;
+                    }
+                case '2':
+                    {
+                        Console.WriteLine(_name + " casts a Lightning Bolt!");
+                        if (hitChance > 7)
+                        {
+                            Console.WriteLine("The lightning bolt fizzles out");
+                        }
+                        else
+                        {
+                            if (_mana >= 10)
+                            {
+                                float damage = _baseDamage + _baseDamage * (.05f * _level);
+                                target.TakeDamage(damage);
+                                Console.WriteLine(target.GetName() + " took " + damage + " from the lightningbolt");
+                                _mana -= 10;
+
+                            }
+                            else
+                            {
+                                Console.WriteLine(_name + "'s lightning bolt fizzled out before it was even conjured!");
+                            }
+                        }
+                        break;
+                    }
+                case '3':
+                    {
+                        Console.WriteLine(_name + " Throws Hands!");
+                        Attack(target);
+                        break;
+                    }
+                case '4':
+                    {
+                        Console.WriteLine(_name + " casts polymorphism!");
+                        if (hitChance > 7)
+                        {
+                            Console.WriteLine("The spell fails!");
+                        }
+                        else
+                        {
+                            if (_mana >= 25)
+                            {
+                                Polymorph(target);
+                                int animalChoice = GenerateNumber(1, 3, true);
+                                string previousName = target.GetName();
+                                if (animalChoice == 1) { target.Polymorph(1); }
+                                else if (animalChoice == 2) { target.Polymorph(2); }
+                                else { target.Polymorph(3); }
+                                target.SetPolyNumber(animalChoice);
+                                Console.WriteLine(previousName + " was turned into a " + target.GetName());
+                                _mana -= 25;
+                            }
+                            else
+                            {
+                                Console.WriteLine(_name + "'s spell fizzled out before it was even conjured!");
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
         public override void BlindAttack(Entity target) //50% chance to hit target for 50% more damage;
         {
             float HitChance = GenerateNumber(1, 10);
@@ -227,13 +318,16 @@ namespace HelloWorld
             Console.WriteLine("Press any key to continue");
             Console.ReadKey(false);
         }
-        public void ManaFromRest()
+        public void ManaFromRest(int manaVal)
         {
-            _mana += 5;
+            _mana += manaVal;
             if (_mana > _maxMana)
             {
                 _mana = _maxMana;
             }
+            Console.WriteLine("You just regened for a total of " + _mana + "/" + _maxMana + " total mana!");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey(false);
         }
         public void UpdateMaxHealth() // updates max health to the the base health plus all items healthboost;
         {
@@ -348,93 +442,6 @@ namespace HelloWorld
             inventory[1] = new Items(item2name, item2health, item2damage, item2Value);
             inventory[2] = new Items(item3name, item3health, item3damage, item3Value);
             return true;
-        }
-        public override void ManaAttack(Entity target)      //Tests for mana and may call an attack depending on luck and mana quantity
-        {
-            char attackChoice = GetInput("FireBall  5 mana", "LightningBolt  10 mana", "Bare Knuckles 0 mana", "Polymorph 25 mana", "Which spell would you like to cast");
-            float hitChance = GenerateNumber(1, 10);
-            switch (attackChoice)
-            {
-                case '1':
-                    {
-                        Console.WriteLine(_name + " casts a fireball!");
-                        if (hitChance > 7)
-                        {
-                            Console.WriteLine("The fireball fizzles out");
-                        }
-                        else
-                        {
-                            if (_mana >= 5)
-                            {
-                                float damage = _baseDamage * (.05f * _level);
-                                target.TakeDamage(damage);
-                                Console.WriteLine(target.GetName() + " took " + damage + " from the fireball");
-
-                            }
-                            else
-                            {
-                                Console.WriteLine(_name + "'s fireball fizzled out before it was even conjured!");
-                            }
-                        }
-                        break;
-                    }
-                case '2':
-                    {
-                        Console.WriteLine(_name + " casts a Lightning Bolt!");
-                        if (hitChance > 7)
-                        {
-                            Console.WriteLine("The lightning bolt fizzles out");
-                        }
-                        else
-                        {
-                            if (_mana >= 10)
-                            {
-                                float damage = _baseDamage * (.05f * _level);
-                                target.TakeDamage(damage);
-                                Console.WriteLine(target.GetName() + " took " + damage + " from the lightningbolt");
-
-                            }
-                            else
-                            {
-                                Console.WriteLine(_name + "'s lightning bolt fizzled out before it was even conjured!");
-                            }
-                        }
-                        break;
-                    }
-                case '3':
-                    {
-                        Console.WriteLine(_name + " Throws Hands!");
-                        Attack(target);
-                        break;
-                    }
-                case '4':
-                    {
-                        Console.WriteLine(_name + " casts polymorphism!");
-                        if (hitChance > 7)
-                        {
-                            Console.WriteLine("The spell fails!");
-                        }
-                        else
-                        {
-                            if (_mana >= 25)
-                            {
-                                Polymorph(target);
-                                int animalChoice = GenerateNumber(1, 3, true);
-                                string previousName = target.GetName();
-                                if (animalChoice == 1) { target.Polymorph(1); }
-                                else if (animalChoice ==2) { target.Polymorph(2); }
-                                else { target.Polymorph(3); }
-                                target.SetPolyNumber(animalChoice);
-                                Console.WriteLine(previousName + " was turned into a " + target.GetName()); ;
-                            }
-                            else
-                            {
-                                Console.WriteLine(_name + "'s spell fizzled out before it was even conjured!");
-                            }
-                        }
-                        break;
-                    }
-            }
         }
     }
 }

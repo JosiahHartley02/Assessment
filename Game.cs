@@ -76,12 +76,12 @@ namespace HelloWorld
             Console.Clear();
             Console.WriteLine("Please select a character from below!");
             Console.WriteLine("1. Mouse Man, thief of the night\n2. Merlin" +
-                " master of the arcane arts\n3. WolfGang deaf musical bard\n.4 " +
+                " master of the arcane arts [coolest\strongest]\n3. WolfGang deaf musical bard\n.4 " +
                 "Professer Eisenburg raiser of the dead");
             char input = ' ';
             while (input != '1' && input != '2' && input != '3' && input != '4')
             {
-                input = Console.ReadKey(false).KeyChar;
+                input = Console.ReadKey(true).KeyChar;
                 switch (input)
                 {
                     case '1':
@@ -134,12 +134,12 @@ namespace HelloWorld
                 Console.WriteLine(_player.GetName() + ": You approace the great stone wall, its significantly larger than you,\n" +
                     "and appears to still be guarded, you get the feeling you're not invited back in.");
                 Console.WriteLine("Press 2 to go to the far end of the pit");
-                input = Console.ReadKey(false).KeyChar;
+                input = Console.ReadKey(true).KeyChar;
                 if (input != '2')
                 {
                     Console.WriteLine("just press 2");
                     Console.WriteLine("but press any key to try again");
-                    Console.ReadKey(false);
+                    Console.ReadKey(true);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace HelloWorld
                 }
                 if (saveExists == true)
                 {
-                    input = Console.ReadKey(false).KeyChar;
+                    input = Console.ReadKey(true).KeyChar;
                     if (input == '1')
                     {
                         _useOldSave = false;
@@ -176,7 +176,7 @@ namespace HelloWorld
                 }
                 else
                 {
-                    input = Console.ReadKey(false).KeyChar;
+                    input = Console.ReadKey(true).KeyChar;
                     if (input == '1')
                     {
                         _useOldSave = false;
@@ -195,7 +195,7 @@ namespace HelloWorld
                 "select options, if you enter an invalid option you will be told, often you may be prompted\n" +
                 "to press any key to continue, please read each screen thouroughly before deciding");
             Console.WriteLine("\n\n\nPress any key to continue!");
-            Console.ReadKey(false);
+            Console.ReadKey(true);
         }
 
 
@@ -205,7 +205,7 @@ namespace HelloWorld
             Console.WriteLine(_player.GetName() + ": upon arriving at the far end of the gate, you notice an undead peasant\n" +
                 "just standing there. But unfortunately it notices you and begins to approach quickly\n" +
                 "Press any key  begin battle introduction");
-            Console.ReadKey(false);
+            Console.ReadKey(true);
             BattleLoop(_player);
         }
         private void BattleLoop(Player player) //player fights against a zombie
@@ -242,7 +242,7 @@ namespace HelloWorld
                         }
                         else if (input == '2')
                         {
-                            player.ManaFromRest();
+                            player.ManaFromRest(5);
                         }
                     }
                 }
@@ -258,7 +258,7 @@ namespace HelloWorld
                         else if (EnemyChoice == 5) //Just a good RNG possibility
                         {
                             Console.WriteLine(enemy.GetName() + " doesn't seem interested");
-                            Console.ReadKey(false);
+                            Console.ReadKey(true);
                         }
                         else
                         {
@@ -317,7 +317,7 @@ namespace HelloWorld
 
                 }
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(false);
+                Console.ReadKey(true);
                 Console.Clear();
                 if (_player.GetExperience() >= 100)
                 {
@@ -325,7 +325,7 @@ namespace HelloWorld
                 }
                 player.PrintStats();
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(false);
+                Console.ReadKey(true);
             }
             else if (enemy.GetHealth() > 0)
             {
@@ -372,7 +372,7 @@ namespace HelloWorld
             {
                 Console.WriteLine(player.GetName() + " has proven to be stronger than " + animal.GetName());
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(false);
+                Console.ReadKey(true);
                 Console.Clear();
                 player.GainExperience(animal);
                 if (_player.GetExperience() >= 100)
@@ -381,7 +381,7 @@ namespace HelloWorld
                 }
                 player.PrintStats();
                 Console.WriteLine("Press any key to continue");
-                Console.ReadKey(false);
+                Console.ReadKey(true);
             }
         }
         public float GenerateNumber(int min, int max) //takes in min and max to make generating numbers easy and variables non permanent
@@ -405,24 +405,24 @@ namespace HelloWorld
             _player.PrintStats();
             Console.WriteLine("Press any key to continue");
             _gameOver = true;
-            Console.ReadKey(false);
+            Console.ReadKey(true);
         }
 
         private void MeetTheCamp() // just dialogue and background info
         {
             Console.WriteLine("You notice a young girl has been watching the whole time from just beyond a few shrubs\n" +
                 "she urges you to follow.\n Press any key to continue");
-            Console.ReadKey(false);
+            Console.ReadKey(true);
             Console.Clear();
             Console.WriteLine(_player.GetName() + " follows the young girl into the woods for what seems like only a few minutes");
             Console.WriteLine("She suddenly stops near a clearing revealing a small society embedded deep in the woods.");
             Console.WriteLine("Press any key to continue to the center");
-            Console.ReadKey(false);
+            Console.ReadKey(true);
             Console.Clear();
             Console.WriteLine("Once you are positioned near the center camp fire, the girl explains that this is a refugee camp for \n" +
                 "those like you who have been kicked from the castle. This is your new home for the forseeable future");
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey(false);
+            Console.ReadKey(true);
             Console.Clear();
         }
         private void CampLife() // The main loop that tha player can save from or load to
@@ -478,7 +478,7 @@ namespace HelloWorld
                     case '4':
                         Console.WriteLine("Alright Ill Be Seeing You Around Then\nPress any key to continue");
                         leave = true;
-                        Console.ReadKey(false);
+                        Console.ReadKey(true);
                         break;
                 }
             }
@@ -490,6 +490,7 @@ namespace HelloWorld
             if (input == '1')
             {
                 _player.HealFromRest(25);
+                _player.ManaFromRest(25);
             }
             else
             {
@@ -503,7 +504,7 @@ namespace HelloWorld
             _player.Save(writer);
             writer.Close();
             Console.WriteLine("Saved, press any key to continue");
-            Console.ReadKey(false);
+            Console.ReadKey(true);
         }
         public void Load()//loads players important stats
         {
@@ -522,7 +523,7 @@ namespace HelloWorld
             Console.WriteLine("4. " + option4);
             while (input != '1' && input != '2' && input != '3' && input != '4')
             {
-                input = Console.ReadKey(false).KeyChar;
+                input = Console.ReadKey(true).KeyChar;
                 if (input != '1' && input != '2' && input != '3' && input != '4')
                 {
                     Console.WriteLine("Please select a valid option");
@@ -545,7 +546,7 @@ namespace HelloWorld
             Console.WriteLine("4. " + option4);
             while (input != '1' && input != '2' && input != '3' && input != '4')
             {
-                input = Console.ReadKey(false).KeyChar;
+                input = Console.ReadKey(true).KeyChar;
                 if (input != '1' && input != '2' && input != '3' && input != '4')
                 {
                     Console.WriteLine("Please select a valid option");
@@ -561,7 +562,7 @@ namespace HelloWorld
             char input = ' ';
             while (input != '1' && input != '2')
             {
-                input = Console.ReadKey(false).KeyChar;
+                input = Console.ReadKey(true).KeyChar;
                 if (input != '1' && input != '2')
                 {
                     Console.WriteLine("Please select a valid option");

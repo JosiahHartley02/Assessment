@@ -107,7 +107,7 @@ namespace HelloWorld
         }
         public void Polymorph(int animalnumber)
         {
-            _level = 5;
+            _level = 1;
             _baseDamage = 2;
             _hasMana = false;
             switch (animalnumber)
@@ -206,6 +206,7 @@ namespace HelloWorld
                                     float damage = _level * _baseDamage;
                                     Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
                                     target.TakeDamage(damage);
+                                    _mana -= 5;
                                 }
                                 else
                                 {
@@ -239,8 +240,9 @@ namespace HelloWorld
                                 if (_mana >= 5)
                                 {
                                     float damage = _level * _baseDamage + 3;
-                                    Console.WriteLine(_name + " hit " + target.GetName() + " with a magical " + " for " + damage + "!");
+                                    Console.WriteLine(_name + " hit " + target.GetName() + " with a lightning bolt " + " for " + damage + "!");
                                     target.TakeDamage(damage);
+                                    _mana -= 5;
                                 }
                                 else
                                 {
@@ -276,6 +278,7 @@ namespace HelloWorld
                                     float damage = _level * _baseDamage + 20;
                                     Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
                                     target.TakeDamage(damage);
+                                    _mana -= 15;
                                 }
                                 else
                                 {
@@ -311,6 +314,7 @@ namespace HelloWorld
                                     float damage = _level * _baseDamage + 10;
                                     Console.WriteLine(_name + " hit " + target.GetName() + " with a magical fireball for " + damage + "!");
                                     target.TakeDamage(damage);
+                                    _mana -= 10;
                                 }
                                 else
                                 {
