@@ -520,7 +520,8 @@ namespace HelloWorld
             if (input == '1')
             {
                 _player.HealFromRest(25);
-                _player.ManaFromRest(25);
+                if (_player.HasMana() == true)
+                { _player.ManaFromRest(25); }                
             }
             else
             {
