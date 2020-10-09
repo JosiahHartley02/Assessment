@@ -78,6 +78,9 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: _useOldSave
              Description: Has potential to activate introduction or continue from last save
              Type: bool
+        Name: Run()
+             Description: Runs Start then begins main game loop
+             Type: void
         Name: Start()
              Description: Runs important code needed before the main game
              Type: void
@@ -141,8 +144,11 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: Load()
              Description: Makes player read all their important data from a SaveData.txt file
              Type: void 
+        Name: GetInput(Player player, string option4, string query)
+             Description: Takes in a player and 2 strings, returns a char if the option if available
+             Type: char
         Name: GetInput(string option1, string option2, string option3, string option4, string query)
-             Description: Takes in 5 strings, returns a char if the option if abailable
+             Description: Takes in 5 strings, returns a char if the option if available
              Type: char
         Name: InitInventory()
              Description: Sets all items in players inventory as Empty Slot
@@ -153,9 +159,6 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: GetInput(string option1, string option2, string query)
              Description: takes in 3 strings for simple yes or no questions, returns the char
              Type: char 
-        Name: PrintStats
-             Description: prints entitys health damage and level
-             Type: virtual void PrintStats
 
 
 
@@ -180,6 +183,9 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
               Type:int 
        Name: _mana
              Description: Hold's entity's mana value
+              Type:int
+       Name: _maxMana
+             Description: Hold's entity's max mana value
               Type:int 
        Name: _hasmana
              Description: tests if entity has mana
@@ -190,7 +196,7 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
        Name: Entity()
              Description: base constructor for basic entity
               Type: constructor 
-       Name: (string nameVal, float healthVal, float damageVal, int levelVal)
+       Name: Entity(string nameVal, float healthVal, float damageVal, int levelVal)
              Description: Takes inname, health, damage, and level, for secondary base constructor 
               Type:constructor
        Name: GenerateNumber(int min, int max)
@@ -214,25 +220,33 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
           Name: GetMana()
              Description: Retuns entity's mana value
               Type:int
+       Name: _hasMana
+             Description: returns mana max value
+              Type:int
+       Name: Polymorph(int animalnumber)
+             Description: converts an entity into a chicken deer or pig by settingss stats and name
+              Type:void
           Name: Attack(Entity target)
              Description: Calls for the target to subtract their health by the aggressors damage
-              Type:void
+              Type:virtual void
           Name: BlindAttack(Entity target)
              Description: Takes in a target, generates a random hitchance number and subtracts targets health by agressors output damage +50%
-              Type:void
+              Type:virtual void
           Name: TakeDamage(float damage)
              Description: Decrements entity's health by a desired damage value
               Type:void
+       Name: PrintStats()
+             Description: Displays an entity's stats
+              Type:virtual void
+       Name: ManaAttack()
+             Description: calls for a random spell to be called for an npc and checks if the npc has enough mana
+              Type:virtual void
 **File**: Enemy.cs
 
 **Attributes**
 
-         Name: _isUndead
-             Description: Will be used to add ability to Necromancer
-             Type: bool
-
-        Name: Enemy(string nameVal, int levelVal)
-             Description: Takes in string name val and int level val to create a base enemy
+        Name: Enemy(int numberVal)
+             Description: constructs an enemy entity.
              Type: constructor
 
 **File**: Item.cs
@@ -353,6 +367,9 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
         Name: InitInventory
              Description: Sets every single position in the players inventory array to an emptySlot item,
              Type: void
+       Name: Inventory(int slot)
+             Description: returns an Item.cs value at desired player inventory slot
+              Type:Items.cs
         Name: PrintInventory()
              Description: Prints players inventory one line per array position
              Type: void
@@ -371,9 +388,12 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
           Name:  EquipItem(Items itemname)
              Description: /Allows player to put an item in a specific slot, then updates max health in case an item was removed or added
              Type: void
-        Name: Attack
+        Name: Attack(Entity Target)
              Description: Takes in players base damage and adds all items damage value to create an output damaeg
              Type: overriden void
+       Name: ManaAttack(Entity target)
+             Description: Asks player which spell they wish to cast then depending on luck and mana value the player may casta  spell
+              Type:overriden void
         Name: BlindAttack
              Description: Takes in players base damage plus damagevalue of all items, multiplies that by half and adds the total damage of all the damages and items again
              Type: overriden void
@@ -388,6 +408,9 @@ Because this applications purpose is to demonstrate my understanding of c#, it h
              Type: void
           Name:  HealFromRest(int healthHealed)
              Description: heals the player for specific amount
+             Type: void
+          Name:  ManaFromRest(int manaVal)
+             Description: regens the player's mana for specific amount
              Type: void
           Name:  UpdateMaxHealth()
              Description: updates max health to the the base health plus all items damageboost
